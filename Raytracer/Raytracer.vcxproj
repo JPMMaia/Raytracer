@@ -151,7 +151,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\Application.cpp" />
+    <ClCompile Include="source\Graphics.cpp" />
+    <ClCompile Include="source\Image.cpp" />
     <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\Sphere.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\Application.h" />
+    <ClInclude Include="source\Graphics.h" />
+    <ClInclude Include="source\Image.h" />
+    <ClInclude Include="source\Point.h" />
+    <ClInclude Include="source\Ray.h" />
+    <ClInclude Include="source\Sphere.h" />
+    <ClInclude Include="source\Vector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

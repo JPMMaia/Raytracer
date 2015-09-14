@@ -1,11 +1,14 @@
-#include <FreeImage.h>
-#include <iostream>
+#include "Application.h"
 
-void main()
+int main()
 {
-	FreeImage_Initialise();
+	Application application;
+	if (!application.Initialize())
+		return -1;
 
-	std::cout << FreeImage_GetVersion();
+	application.Render();
 
-	FreeImage_DeInitialise();
+	application.Shutdown();
+
+	return 0;
 }
