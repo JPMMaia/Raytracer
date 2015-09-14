@@ -16,7 +16,16 @@ struct Point
 	{
 	}
 
-	Vector<T> operator -(const Point<T>& other) const
+	Point<T> operator+(const Vector<T>& other) const
+	{
+		return Point<T>(
+			this->x + other.x,
+			this->y + other.y,
+			this->z + other.z
+			);
+	}
+
+	Vector<T> operator-(const Point<T>& other) const
 	{
 		return Vector<T>(
 			this->x - other.x,

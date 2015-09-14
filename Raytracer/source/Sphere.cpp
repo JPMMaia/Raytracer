@@ -1,10 +1,12 @@
+#include <math.h>
+
 #include "Sphere.h"
 
 Sphere::Sphere(const Point<> & center, float radius) : center(center), radius(radius)
 {
 }
 
-bool Sphere::Intersect(const Ray& ray)
+bool Sphere::Intersect(const Ray& ray, Point<>& intersection, Vector<>& normal) const
 {
 	// O - C:
 	Vector<> centerOriginVector = ray.origin - this->center;
@@ -24,6 +26,17 @@ bool Sphere::Intersect(const Ray& ray)
 	// There isn't any real solution, therefore there isn't any intersection:
 	if (delta < 0.0f)
 		return false;
+
+	// Find the smallest solution t:
+	float t1 = (-b + sqrt(delta)) / (2 * a);
+	float t2 = (-b - sqrt(delta)) / (2 * a);
+	t1 = fminf(t1, t2);
+
+	// Find the point of intersection between the ray and the sphere:
+	intersection = ray.origin + t1 * ray.direction;
+
+	// Calculate normal vector at the intersection:
+	normal = intersection - this->center;
 
 	return true;
 }

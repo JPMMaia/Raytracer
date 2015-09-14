@@ -159,9 +159,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Application.h" />
+    <ClInclude Include="source\Color.h" />
     <ClInclude Include="source\Graphics.h" />
     <ClInclude Include="source\Image.h" />
+    <ClInclude Include="source\Material.h" />
     <ClInclude Include="source\Point.h" />
+    <ClInclude Include="source\PointLight.h" />
     <ClInclude Include="source\Ray.h" />
     <ClInclude Include="source\Sphere.h" />
     <ClInclude Include="source\Vector.h" />

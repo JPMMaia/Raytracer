@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Utils">
       <UniqueIdentifier>{4d18e331-a2d0-46d5-99e2-4dc8bc1c0ee5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Lights">
+      <UniqueIdentifier>{a4fc886b-1d73-44c4-8858-7a32596d9e7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Lights">
+      <UniqueIdentifier>{2a379648-74f4-4f64-9301-709a188e8074}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp">
@@ -63,6 +69,15 @@
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
     <ClInclude Include="source\Vector.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="source\PointLight.h">
+      <Filter>Header Files\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Color.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Material.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
