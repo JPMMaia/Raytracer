@@ -12,6 +12,6 @@ public:
 
 private:
 	Image m_renderBuffer;
-	static const unsigned int s_WIDTH = 100;
-	static const unsigned int s_HEIGHT = 100;
+	static const unsigned int s_WIDTH = 512;
+	static const unsigned int s_HEIGHT = 512;
 };

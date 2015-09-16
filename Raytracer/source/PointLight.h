@@ -15,12 +15,7 @@ struct PointLight
 	PointLight()
 	{
 	}
-	PointLight(const Point<>& position, const Color<>& color) : 
-		position(position), color(color), 
-		constantAttenuation(1.0f), linearAttenuation(0.1f), quadraticAttenuation(0.01f)
-	{
-	}
-	PointLight(const Point<>& position, const Color<>& color, float constantAttenuation, float linearAttenuation, float quadraticAttenuation) :
+	PointLight(const Point<>& position, const Color<>& color, float constantAttenuation = 1.0f, float linearAttenuation = 0.1f, float quadraticAttenuation = 0.01f) :
 		position(position), color(color),
 		constantAttenuation(constantAttenuation), linearAttenuation(linearAttenuation), quadraticAttenuation(quadraticAttenuation)
 	{
