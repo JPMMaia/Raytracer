@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
@@ -16,20 +12,42 @@
     <Filter Include="Header Files\Meshes">
       <UniqueIdentifier>{82cc69a5-d415-448e-b7fc-b9ad3085f287}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Meshes">
-      <UniqueIdentifier>{28827783-2c9e-4592-b8b5-47dc18409fec}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Utils">
       <UniqueIdentifier>{85ed9bda-aaca-4605-b44b-2276ec4a6fa9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Utils">
-      <UniqueIdentifier>{4d18e331-a2d0-46d5-99e2-4dc8bc1c0ee5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Lights">
       <UniqueIdentifier>{a4fc886b-1d73-44c4-8858-7a32596d9e7b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Cameras">
+      <UniqueIdentifier>{9186ac43-6e93-4aec-94f3-def9b70b193d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Reader">
+      <UniqueIdentifier>{34b0def5-498f-44ef-a05f-788a47f6a5d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Meshes">
+      <UniqueIdentifier>{28827783-2c9e-4592-b8b5-47dc18409fec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils">
+      <UniqueIdentifier>{4d18e331-a2d0-46d5-99e2-4dc8bc1c0ee5}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\Lights">
       <UniqueIdentifier>{2a379648-74f4-4f64-9301-709a188e8074}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Cameras">
+      <UniqueIdentifier>{5f75be85-c0b4-401d-a45d-f6f3eca35c40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Reader">
+      <UniqueIdentifier>{1c55d671-ee93-4ffb-b7dd-b8e5fbf46e46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Models">
+      <UniqueIdentifier>{6e9ab9a0-62a3-43b3-a49d-b48c2bbc6a8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Models">
+      <UniqueIdentifier>{413f8213-f246-4dfd-a0d8-ea47028e8a45}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -47,6 +65,21 @@
     </ClCompile>
     <ClCompile Include="source\Sphere.cpp">
       <Filter>Source Files\Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Raytracer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Quartenion.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Camera.cpp">
+      <Filter>Source Files\Cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="source\TestFileReader.cpp">
+      <Filter>Source Files\Reader</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GenericMesh.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -77,8 +110,40 @@
     <ClInclude Include="source\Color.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="source\Material.h">
+    <ClInclude Include="source\Quartenion.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="source\Property.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Raytracer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Constants.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Camera.h">
+      <Filter>Header Files\Cameras</Filter>
+    </ClInclude>
+    <ClInclude Include="source\TestFileReader.h">
+      <Filter>Header Files\Reader</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Model.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Material.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="source\GenericMesh.h">
+      <Filter>Header Files\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Face.h">
+      <Filter>Header Files\Meshes</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\UnitTestProject\resources\scene1.test">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

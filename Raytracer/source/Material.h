@@ -4,15 +4,17 @@
 
 struct Material
 {
-	Color<> emissionColor;
-	Color<> diffuseColor;
-	Color<> specularColor;
+	Color<float> ambientColor;
+	Color<float> emissionColor;
+	Color<float> diffuseColor;
+	Color<float> specularColor;
 	float shininess;
 
 	Material()
 	{
 	}
-	Material(const Color<>& diffuseColor, const Color<>& specularColor, float shininess) :
+	Material(const Color<float>& ambientColor, const Color<float>& diffuseColor, const Color<float>& specularColor, float shininess) :
+		ambientColor(ambientColor),
 		diffuseColor(diffuseColor), 
 		specularColor(specularColor), 
 		shininess(shininess),

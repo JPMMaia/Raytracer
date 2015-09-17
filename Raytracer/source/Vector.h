@@ -24,6 +24,21 @@ struct Vector
 			this->z * other.z;
 	}
 
+	inline Vector<T> cross(const Vector<T> other) const
+	{
+		/*
+		i	j	k
+		vx1	vy1	vz1
+		vx2	vy2	vz2
+		*/
+
+		return Vector<T>(
+			this->y * other.z - this->z * other.y,
+			this->z * other.x - this->x * other.z,
+			this->x * other.y - this->y * other.x
+			);
+	}
+
 	inline void normalize()
 	{
 		float length = this->length();
@@ -36,6 +51,17 @@ struct Vector
 	inline float length() const
 	{
 		return sqrtf(this->x*this->x + this->y*this->y + this->z*this->z);
+	}
+
+	inline Vector<T> normalizedVector() const
+	{
+		float length = this->length();
+
+		return Vector<T>(
+			this->x / length,
+			this->y / length,
+			this->z / length
+			);
 	}
 
 	inline Vector<T> operator+(const Vector<T>& other) const

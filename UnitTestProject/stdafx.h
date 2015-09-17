@@ -12,3 +12,4 @@
 
 // TODO: reference additional headers your program requires here
 #include "PointLight.h"
+#include "TestFileReader.h"

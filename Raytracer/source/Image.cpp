@@ -1,3 +1,4 @@
+#include <math.h>
 #include <string>
 
 #include "Image.h"
@@ -20,51 +21,41 @@ bool Image::Initialize(int width, int height, int bitsPerPixel)
 	return true;
 }
 
-bool Image::GetPixelColor(int line, int column, BYTE& red, BYTE& green, BYTE& blue) const
+bool Image::GetPixelColor(int line, int column, Color<BYTE>& color) const
 {
-	RGBQUAD color;
-	if (!FreeImage_GetPixelColor(m_bitmap, column, line, &color))
+	RGBQUAD pixelColor;
+	if (!FreeImage_GetPixelColor(m_bitmap, column, line, &pixelColor))
 		return false;
 
-	red = color.rgbRed;
-	green = color.rgbGreen;
-	blue = color.rgbBlue;
+	color.red = pixelColor.rgbRed;
+	color.green = pixelColor.rgbGreen;
+	color.blue = pixelColor.rgbBlue;
 
 	return true;
 }
 
-bool Image::SetPixelColor(int line, int column, BYTE red, BYTE green, BYTE blue)
+bool Image::SetPixelColor(int line, int column, const Color<BYTE>& color)
 {
-	RGBQUAD color;
-	color.rgbRed = red;
-	color.rgbGreen = green;
-	color.rgbBlue = blue;
+	RGBQUAD pixelColor;
+	pixelColor.rgbRed = color.red;
+	pixelColor.rgbGreen = color.green;
+	pixelColor.rgbBlue = color.blue;
 
-	if (!FreeImage_SetPixelColor(m_bitmap, column, line, &color))
+	if (!FreeImage_SetPixelColor(m_bitmap, column, line, &pixelColor))
 		return false;
 
 	return true;
 }
 
-bool Image::AddPixelColor(int line, int column, BYTE red, BYTE green, BYTE blue)
+bool Image::AddPixelColor(int line, int column, const Color<BYTE>& color)
 {
-	RGBQUAD color;
-	if (!FreeImage_GetPixelColor(m_bitmap, column, line, &color))
+	Color<BYTE> pixelColor;
+	if (!GetPixelColor(line, column, pixelColor))
 		return false;
 
-	color.rgbRed += red;
-	color.rgbGreen += green;
-	color.rgbBlue += blue;
+	pixelColor = pixelColor + color;
 
-	// Set maximun value if there was overflow:
-	if (color.rgbRed < red)
-		color.rgbRed = 255;
-	if (color.rgbGreen < green)
-		color.rgbGreen = 255;
-	if (color.rgbBlue < blue)
-		color.rgbBlue = 255;
-
-	if (!FreeImage_SetPixelColor(m_bitmap, column, line, &color))
+	if (!SetPixelColor(line, column, pixelColor))
 		return false;
 
 	return true;

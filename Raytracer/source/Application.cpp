@@ -1,8 +1,12 @@
 #include "Application.h"
 
-bool Application::Initialize()
+bool Application::Initialize(const std::wstring& filename)
 {
-	if (!m_graphics.Initialize())
+	TestFileReader fileReader;
+	if (!fileReader.Initialize(filename))
+		return false;
+
+	if (!m_graphics.Initialize(512, 512))
 		return false;
 
 	return true;

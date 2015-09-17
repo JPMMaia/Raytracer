@@ -1,20 +1,31 @@
 #include "Graphics.h"
 #include "Sphere.h"
 #include "PointLight.h"
+#include "Property.h"
+#include "Model.h"
 
-bool Graphics::Initialize()
+bool Graphics::Initialize(UINT screenWidth, UINT screenHeight)
 {
 	// Initialize Free Image:
 	FreeImage_Initialise();
 
 	// Initialize image where the scene will be rendered:
-	if (!m_renderBuffer.Initialize(s_WIDTH, s_HEIGHT, 24))
+	if (!m_renderBuffer.Initialize(screenWidth, screenHeight, 24))
 		return false;
+
+	// Initialize raytracer:
+	if (!m_raytracer.Initialize(screenWidth, screenHeight))
+		return false;
+
+	// Initialize camera at the origin looking at -Z:
+	m_camera.Initialize(Point<>(0.0f, 0.0f, 0.0f), Point<>(0.0f, 0.0f, 1.0f), Vector<>(0.0f, 1.0f, 0.0f));
 
 	return true;
 }
 void Graphics::Shutdown()
 {
+	m_raytracer.Shutdown();
+
 	// Release Free Image resources: 
 	FreeImage_DeInitialise();
 }
@@ -22,27 +33,19 @@ void Graphics::Shutdown()
 bool Graphics::Render()
 {
 	Sphere sphere = Sphere(Point<>(0.0f, 0.0f, -4.0f), 1.0f);
-
-	float pixelCenterX = 0.5f / static_cast<float>(s_WIDTH);
-	float pixelCenterY = 0.5f / static_cast<float>(s_HEIGHT);
-
-	Point<> cameraPosition = Point<>(0.0f, 0.0f, 0.0f);
-	Ray ray = Ray(cameraPosition, Vector<>(0.0f, 0.0f, -1.0f));
 	Point<> intersection;
 	Vector<> normal;
-	PointLight pointLight = PointLight(Point<>(2.0f, 2.0f, -2.0f), Color<>(180, 180, 180, 255));
-	Material material = Material(Color<>(0, 40, 180, 255), Color<>(0, 40, 180, 255), 20.0f);
+	PointLight pointLight = PointLight(Point<>(2.0f, 2.0f, -2.0f), Color<>(0.7f, 0.7f, 0.7f, 1.0f));
+	Material material = Material(Color<>(0.0f, 0.0f, 0.0f, 0.0f), Color<>(0.0f, 0.4f, 0.7f, 1.0f), Color<>(0.0f, 0.4f, 0.7f, 1.0f), 20.0f);
 	Color<> color;
-
-	for (int i = 0; i < s_HEIGHT; i++)
+	const Point<>& cameraPosition = m_camera.GetPosition();
+	
+	for (UINT i = 0; i < m_screenWidth; i++)
 	{
-		float y = 2.0f * (pixelCenterY + static_cast<float>(i) / static_cast<float>(s_HEIGHT)) - 1.0f;
-		ray.direction.y = -y;
-
-		for (int j = 0; j < s_WIDTH; j++)
+		for (UINT j = 0; j < m_screenHeight; j++)
 		{
-			float x = 2.0f * (pixelCenterX + static_cast<float>(j) / static_cast<float>(s_WIDTH)) - 1.0f;
-			ray.direction.x = x;
+			Ray ray = m_raytracer.GetPixelRay(i, j);
+			ray.origin = cameraPosition;
 
 			// If there is an intesection between the sphere and the ray:
 			if (sphere.Intersect(ray, intersection, normal))
@@ -53,12 +56,10 @@ bool Graphics::Render()
 				pointLight.CalculateLightColor(intersection, normal, viewDirection, material, color);
 
 				// Add color to pixel:
-				m_renderBuffer.AddPixelColor(s_HEIGHT - i, j, color.red, color.green, color.blue);
+				m_renderBuffer.AddPixelColor(m_screenHeight - i, j, color);
 			}
 		}
 	}
-
-	
 
 	m_renderBuffer.Save("ResultImage.png");
 

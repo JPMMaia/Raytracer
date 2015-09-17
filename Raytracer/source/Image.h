@@ -2,6 +2,8 @@
 
 #include <FreeImage.h>
 
+#include "Color.h"
+
 class Image
 {
 public:
@@ -10,9 +12,9 @@ public:
 
 	bool Initialize(int width, int height, int bitsPerPixel);
 
-	bool GetPixelColor(int line, int column, BYTE& red, BYTE& green, BYTE& blue) const;
-	bool SetPixelColor(int line, int column, BYTE red, BYTE green, BYTE blue);
-	bool AddPixelColor(int line, int column, BYTE red, BYTE green, BYTE blue);
+	bool GetPixelColor(int line, int column, Color<BYTE>& color) const;
+	bool SetPixelColor(int line, int column, const Color<BYTE>& color);
+	bool AddPixelColor(int line, int column, const Color<BYTE>& color);
 	bool Save(const char* filename) const;
 
 private:
