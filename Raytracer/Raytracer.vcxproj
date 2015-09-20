@@ -160,6 +160,7 @@
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\Quartenion.cpp" />
     <ClCompile Include="source\Raytracer.cpp" />
+    <ClCompile Include="source\Scene.cpp" />
     <ClCompile Include="source\Sphere.cpp" />
     <ClCompile Include="source\TestFileReader.cpp" />
   </ItemGroup>

@@ -12,5 +12,5 @@ struct Sphere
 	Sphere();
 	Sphere(const Point<>& center, float radius);
 
-	bool Intersect(const Ray& ray, Point<>& intersection, Vector3<>& normal) const;
+	bool Intersect(const Ray& ray, Point<>& intersection, float& distance, Vector3<>& normal) const;
 };

@@ -51,12 +51,12 @@ template<>
 template<>
 inline Color<float>::operator Color<BYTE>() const
 {
-	return Color<BYTE>(
-		static_cast<BYTE>(this->red * 255.0f),
-		static_cast<BYTE>(this->green * 255.0f),
-		static_cast<BYTE>(this->blue * 255.0f),
-		static_cast<BYTE>(this->alpha * 255.0f)
-		);
+	BYTE red = this->red > 1.0f ? 255 : static_cast<BYTE>(this->red * 255.0f);
+	BYTE green = this->green > 1.0f ? 255 : static_cast<BYTE>(this->green * 255.0f);
+	BYTE blue = this->blue > 1.0f ? 255 : static_cast<BYTE>(this->blue * 255.0f);
+	BYTE alpha = this->alpha > 1.0f ? 255 : static_cast<BYTE>(this->alpha * 255.0f);
+
+	return Color<BYTE>(red, green, blue, alpha);
 }
 
 template<class T>

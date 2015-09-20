@@ -10,7 +10,7 @@ Sphere::Sphere(const Point<> & center, float radius) : center(center), radius(ra
 {
 }
 
-bool Sphere::Intersect(const Ray& ray, Point<>& intersection, Vector3<>& normal) const
+bool Sphere::Intersect(const Ray& ray, Point<>& intersection, float& distance, Vector3<>& normal) const
 {
 	// O - C:
 	Vector3<> centerOriginVector = ray.origin - this->center;
@@ -34,10 +34,10 @@ bool Sphere::Intersect(const Ray& ray, Point<>& intersection, Vector3<>& normal)
 	// Find the smallest solution t:
 	float t1 = (-b + sqrtf(delta)) / (2 * a);
 	float t2 = (-b - sqrtf(delta)) / (2 * a);
-	t1 = fminf(t1, t2);
+	distance = fminf(t1, t2);
 
 	// Find the point of intersection between the ray and the sphere:
-	intersection = ray.origin + t1 * ray.direction;
+	intersection = ray.origin + distance * ray.direction;
 
 	// Calculate normal vector at the intersection:
 	normal = intersection - this->center;

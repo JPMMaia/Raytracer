@@ -9,11 +9,10 @@
 class GenericMesh
 {
 public:
-	void Initialize(std::vector<Point<float>>& vertices, std::vector<UINT>& indices);
+	void Initialize(const std::vector<Point<float>>& vertices, const std::vector<UINT>& indices);
 
-	bool Intersect(const Ray& ray, Point<float>& intersection, Vector3<float>& normal) const;
+	bool Intersect(const Ray& ray, Point<float>& intersection, float& distance, Vector3<float>& normal) const;
 
 private:
-	std::vector<Point<float>> m_vertices;
 	std::vector<Face> m_faces;
 };

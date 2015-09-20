@@ -12,7 +12,9 @@ public:
 
 	void Initialize(const MeshType& mesh, const Material& material);
 
-	bool Intersect(const Ray& ray, Point<>& intersection, Vector3<>& normal) const;
+	bool Intersect(const Ray& ray, Point<>& intersection, float& distance, Vector3<>& normal) const;
+
+	const Material& GetMaterial() const;
 
 private:
 	MeshType m_mesh;
@@ -39,7 +41,13 @@ inline void Model<MeshType>::Initialize(const MeshType& mesh, const Material& ma
 }
 
 template<class MeshType>
-inline bool Model<MeshType>::Intersect(const Ray & ray, Point<>& intersection, Vector3<>& normal) const
+inline bool Model<MeshType>::Intersect(const Ray & ray, Point<>& intersection, float& distance, Vector3<>& normal) const
 {
-	return static_cast<MeshType>(m_mesh).Intersect(ray, intersection, normal);
+	return static_cast<MeshType>(m_mesh).Intersect(ray, intersection, distance, normal);
+}
+
+template<class MeshType>
+inline const Material& Model<MeshType>::GetMaterial() const
+{
+	return m_material;
 }

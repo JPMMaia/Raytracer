@@ -92,5 +92,23 @@ bool TestFileReader::ReadLine(Scene& scene)
 		scene.AddGenericMesh(triangleModel);
 	}
 
+	else if (command == "ambient")
+		ss 
+		>> m_material.ambientColor.red 
+		>> m_material.ambientColor.green 
+		>> m_material.ambientColor.blue;
+
+	else if(command == "diffuse")
+		ss
+		>> m_material.diffuseColor.red
+		>> m_material.diffuseColor.green
+		>> m_material.diffuseColor.blue;
+
+	else if(command == "specular")
+		ss
+		>> m_material.specularColor.red
+		>> m_material.specularColor.green
+		>> m_material.specularColor.blue;
+
 	return true;
 }

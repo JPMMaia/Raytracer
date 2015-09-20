@@ -10,14 +10,14 @@ typedef unsigned int UINT;
 
 struct Face
 {
-	const Point<float>* vertex1;
-	const Point<float>* vertex2;
-	const Point<float>* vertex3;
+	Point<float> vertex1;
+	Point<float> vertex2;
+	Point<float> vertex3;
 	Vector3<float> normal;
 
 	Face(const Point<float>& vertex1, const Point<float>& vertex2, const Point<float>& vertex3);
 
-	bool Intersect(const Ray & ray, Point<>& intersection, Vector3<>& normal) const;
+	bool Intersect(const Ray & ray, Point<>& intersection, float& distance, Vector3<>& normal) const;
 	
 private:
 	void CalculateNormal();

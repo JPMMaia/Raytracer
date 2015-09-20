@@ -12,6 +12,10 @@ struct Material
 
 	Material()
 	{
+		this->ambientColor.alpha = 1.0f;
+		this->emissionColor.alpha = 1.0f;
+		this->diffuseColor.alpha = 1.0f;
+		this->specularColor.alpha = 1.0f;
 	}
 	Material(const Color<float>& ambientColor, const Color<float>& diffuseColor, const Color<float>& specularColor, float shininess) :
 		ambientColor(ambientColor),
