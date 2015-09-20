@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Vector.h"
+#include "Vector3.h"
 #include "Point.h"
 #include "Ray.h"
 
@@ -12,5 +12,5 @@ struct Sphere
 	Sphere();
 	Sphere(const Point<>& center, float radius);
 
-	bool Intersect(const Ray& ray, Point<>& intersection, Vector<>& normal) const;
+	bool Intersect(const Ray& ray, Point<>& intersection, Vector3<>& normal) const;
 };

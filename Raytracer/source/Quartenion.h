@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Constants.h"
-#include "Vector.h"
+#include "Vector3.h"
 
 struct Quartenion
 {
@@ -20,14 +20,14 @@ struct Quartenion
 		return *this;
 	}
 
-	/*static Quartenion FromAxisAngle(const Vector<float>& axis, float angle)
+	/*static Quartenion FromAxisAngle(const Vector3<float>& axis, float angle)
 	{
 		// Convert from degrees to radians:
 		angle *= Constants::PI_OVER_180;
 
 		Quartenion quartenion;
 
-		Vector<float> normalizedAxis = axis.normalizedVector();
+		Vector3<float> normalizedAxis = axis.normalizedVector();
 		float halfAngle = angle * 0.5f;
 		float sinAngle = sinf(halfAngle);
 	
@@ -42,9 +42,9 @@ struct Quartenion
 
 	static Quartenion FromEulerAngles(float roll, float pitch, float yaw)
 	{
-		Quartenion rollQuartenion = FromAxisAngle(Vector<float>(1.0f, 0.0f, 0.0f), roll);
-		Quartenion pitchQuartenion = FromAxisAngle(Vector<float>(0.0f, 1.0f, 0.0f), pitch);
-		Quartenion yawQuartenion = FromAxisAngle(Vector<float>(0.0f, 0.0f, 1.0f), yaw);
+		Quartenion rollQuartenion = FromAxisAngle(Vector3<float>(1.0f, 0.0f, 0.0f), roll);
+		Quartenion pitchQuartenion = FromAxisAngle(Vector3<float>(0.0f, 1.0f, 0.0f), pitch);
+		Quartenion yawQuartenion = FromAxisAngle(Vector3<float>(0.0f, 0.0f, 1.0f), yaw);
 
 		return yawQuartenion * pitchQuartenion * rollQuartenion;
 	}*/
@@ -55,7 +55,7 @@ inline Quartenion operator*(Quartenion lhs, const Quartenion& rhs)
 	return lhs *= rhs;
 }
 
-inline Vector<float> operator*(const Quartenion& quartenion, const Vector<float>& vector)
+inline Vector3<float> operator*(const Quartenion& quartenion, const Vector3<float>& vector)
 {
 	
 }

@@ -1,13 +1,13 @@
 #pragma once
 
 #include "Point.h"
-#include "Vector.h"
+#include "Vector3.h"
 #include "Quartenion.h"
 
 class Camera
 {
 public:
-	void Initialize(const Point<>& eye, const Point<>& at, const Vector<>& up);
+	void Initialize(const Point<>& eye, const Point<>& at, const Vector3<>& up);
 
 	void Update();
 

@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClCompile Include="source\Application.cpp" />
     <ClCompile Include="source\Camera.cpp" />
+    <ClCompile Include="source\Face.cpp" />
     <ClCompile Include="source\GenericMesh.cpp" />
     <ClCompile Include="source\Graphics.cpp" />
     <ClCompile Include="source\Image.cpp" />
@@ -171,20 +172,25 @@
     <ClInclude Include="source\Graphics.h" />
     <ClInclude Include="source\Image.h" />
     <ClInclude Include="source\Material.h" />
+    <ClInclude Include="source\Matrix2x2.h" />
     <ClInclude Include="source\Model.h" />
+    <ClInclude Include="source\ObjectPool.h" />
     <ClInclude Include="source\Point.h" />
     <ClInclude Include="source\PointLight.h" />
+    <ClInclude Include="source\PoolObject.h" />
     <ClInclude Include="source\Property.h" />
     <ClInclude Include="source\Quartenion.h" />
     <ClInclude Include="source\Ray.h" />
     <ClInclude Include="source\Raytracer.h" />
+    <ClInclude Include="source\Scene.h" />
     <ClInclude Include="source\Sphere.h" />
     <ClInclude Include="source\TestFileReader.h" />
     <ClInclude Include="source\Face.h" />
-    <ClInclude Include="source\Vector.h" />
+    <ClInclude Include="source\Vector2.h" />
+    <ClInclude Include="source\Vector3.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\UnitTestProject\resources\scene1.test" />
+    <None Include="resources\scene1.test" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

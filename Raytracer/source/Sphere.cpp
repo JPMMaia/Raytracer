@@ -10,10 +10,10 @@ Sphere::Sphere(const Point<> & center, float radius) : center(center), radius(ra
 {
 }
 
-bool Sphere::Intersect(const Ray& ray, Point<>& intersection, Vector<>& normal) const
+bool Sphere::Intersect(const Ray& ray, Point<>& intersection, Vector3<>& normal) const
 {
 	// O - C:
-	Vector<> centerOriginVector = ray.origin - this->center;
+	Vector3<> centerOriginVector = ray.origin - this->center;
 
 	// a = D . D:
 	float a = ray.direction.dot(ray.direction);

@@ -1,13 +1,13 @@
 #include "Camera.h"
 
-void Camera::Initialize(const Point<>& eye, const Point<>& at, const Vector<>& up)
+void Camera::Initialize(const Point<>& eye, const Point<>& at, const Vector3<>& up)
 {
-	Vector<> upDirection = up.normalizedVector();
+	Vector3<> upDirection = up.normalizedVector();
 
-	Vector<> viewDirection = at - eye;
+	Vector3<> viewDirection = at - eye;
 	viewDirection.normalize();
 	
-	Vector<> rightDirection = upDirection.cross(viewDirection);
+	Vector3<> rightDirection = upDirection.cross(viewDirection);
 
 	m_translation = eye;
 }

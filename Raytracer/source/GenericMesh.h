@@ -2,26 +2,18 @@
 
 #include <vector>
 
-#include "Vector.h"
-
-typedef unsigned int UINT;
+#include "Face.h"
+#include "Point.h"
+#include "Ray.h"
 
 class GenericMesh
 {
 public:
-	struct Face
-	{
-		UINT index1, index2, index3;
+	void Initialize(std::vector<Point<float>>& vertices, std::vector<UINT>& indices);
 
-		Face(UINT index1, UINT index2, UINT index3) : index1(index1), index2(index2), index3(index3) {}
-	};
-public:
-	void Initialize(UINT maxNumVertex);
-	void Shutdown();
-
-	void AddTriangle(UINT index1, UINT index2, UINT index3);
+	bool Intersect(const Ray& ray, Point<float>& intersection, Vector3<float>& normal) const;
 
 private:
-	std::vector<Vector<float>> m_vertices;
-	std::vector<Face> m_indices;
+	std::vector<Point<float>> m_vertices;
+	std::vector<Face> m_faces;
 };

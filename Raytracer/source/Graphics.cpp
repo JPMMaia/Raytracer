@@ -2,10 +2,13 @@
 #include "Sphere.h"
 #include "PointLight.h"
 #include "Property.h"
-#include "Model.h"
+#include "Scene.h"
 
 bool Graphics::Initialize(UINT screenWidth, UINT screenHeight)
 {
+	m_screenWidth = screenWidth;
+	m_screenHeight = screenHeight;
+
 	// Initialize Free Image:
 	FreeImage_Initialise();
 
@@ -18,7 +21,7 @@ bool Graphics::Initialize(UINT screenWidth, UINT screenHeight)
 		return false;
 
 	// Initialize camera at the origin looking at -Z:
-	m_camera.Initialize(Point<>(0.0f, 0.0f, 0.0f), Point<>(0.0f, 0.0f, 1.0f), Vector<>(0.0f, 1.0f, 0.0f));
+	m_camera.Initialize(Point<>(0.0f, 0.0f, 0.0f), Point<>(0.0f, 0.0f, 1.0f), Vector3<>(0.0f, 1.0f, 0.0f));
 
 	return true;
 }
@@ -30,15 +33,15 @@ void Graphics::Shutdown()
 	FreeImage_DeInitialise();
 }
 
-bool Graphics::Render()
+bool Graphics::Render(const Scene& scene)
 {
 	Sphere sphere = Sphere(Point<>(0.0f, 0.0f, -4.0f), 1.0f);
 	Point<> intersection;
-	Vector<> normal;
+	Vector3<> normal;
 	PointLight pointLight = PointLight(Point<>(2.0f, 2.0f, -2.0f), Color<>(0.7f, 0.7f, 0.7f, 1.0f));
 	Material material = Material(Color<>(0.0f, 0.0f, 0.0f, 0.0f), Color<>(0.0f, 0.4f, 0.7f, 1.0f), Color<>(0.0f, 0.4f, 0.7f, 1.0f), 20.0f);
 	Color<> color;
-	const Point<>& cameraPosition = m_camera.GetPosition();
+	const Point<>& cameraPosition = Point<>(0.0f, 0.0f, 4.0f);
 	
 	for (UINT i = 0; i < m_screenWidth; i++)
 	{
@@ -47,10 +50,21 @@ bool Graphics::Render()
 			Ray ray = m_raytracer.GetPixelRay(i, j);
 			ray.origin = cameraPosition;
 
+			/*if (scene.Intersect(ray, intersection, normal))
+			{
+				Vector3<> viewDirection = intersection - cameraPosition;
+
+				// Calculate color:
+				pointLight.CalculateLightColor(intersection, normal, viewDirection, material, color);
+
+				// Add color to pixel:
+				m_renderBuffer.AddPixelColor(m_screenHeight - i, j, color);
+			}*/
+
 			// If there is an intesection between the sphere and the ray:
 			if (sphere.Intersect(ray, intersection, normal))
 			{
-				Vector<> viewDirection = intersection - cameraPosition;
+				Vector3<> viewDirection = intersection - cameraPosition;
 
 				// Calculate color:
 				pointLight.CalculateLightColor(intersection, normal, viewDirection, material, color);

@@ -1,17 +1,17 @@
 #pragma once
 
 #include "Point.h"
-#include "Vector.h"
+#include "Vector3.h"
 
 struct Ray
 {
 	Point<> origin;
-	Vector<> direction;
+	Vector3<> direction;
 
 	Ray()
 	{
 	}
-	Ray(const Point<>& origin, const Vector<>& direction) : origin(origin), direction(direction)
+	Ray(const Point<>& origin, const Vector3<>& direction) : origin(origin), direction(direction)
 	{
 	}
 };

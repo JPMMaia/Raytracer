@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Vector.h"
+#include "Vector3.h"
 
 template <class T = float>
 struct Point
@@ -15,8 +15,11 @@ struct Point
 	Point<T>(float x, float y, float z) : x(x), y(y), z(z)
 	{
 	}
+	~Point<T>()
+	{
+	}
 
-	Point<T> operator+(const Vector<T>& other) const
+	Point<T> operator+(const Vector3<T>& other) const
 	{
 		return Point<T>(
 			this->x + other.x,
@@ -25,9 +28,9 @@ struct Point
 			);
 	}
 
-	Vector<T> operator-(const Point<T>& other) const
+	Vector3<T> operator-(const Point<T>& other) const
 	{
-		return Vector<T>(
+		return Vector3<T>(
 			this->x - other.x,
 			this->y - other.y,
 			this->z - other.z

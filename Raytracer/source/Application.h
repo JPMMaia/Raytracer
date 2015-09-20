@@ -2,6 +2,7 @@
 
 #include "TestFileReader.h"
 #include "Graphics.h"
+#include "Scene.h"
 
 class Application 
 {
@@ -13,4 +14,5 @@ public:
 
 private:
 	Graphics m_graphics;
+	Scene m_scene;
 };

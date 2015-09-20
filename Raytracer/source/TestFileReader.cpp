@@ -4,7 +4,7 @@
 
 using namespace std;
 
-bool TestFileReader::Initialize(const std::wstring& filename)
+bool TestFileReader::Run(const std::wstring& filename, Scene& scene)
 {
 	// Open input file stream:
 	m_fileStream.open(filename, ios::in);
@@ -12,7 +12,8 @@ bool TestFileReader::Initialize(const std::wstring& filename)
 		return false;
 
 	while (!m_fileStream.eof())
-		ReadLine();
+		if (!ReadLine(scene))
+			return false;
 
 	// Close input file stream:
 	m_fileStream.close();
@@ -20,18 +21,18 @@ bool TestFileReader::Initialize(const std::wstring& filename)
 	return true;
 }
 
-void TestFileReader::ReadLine()
+bool TestFileReader::ReadLine(Scene& scene)
 {
 	string line;
 	getline(m_fileStream, line);
 
 	// Ignore empty lines:
 	if (line.size() == 0)
-		return;
+		return true;
 
 	// If comment, ignore:
 	if (line[0] == '#')
-		return;
+		return true;
 
 	// Create a string stream:
 	stringstream ss(line);
@@ -41,13 +42,55 @@ void TestFileReader::ReadLine()
 	ss >> command;
 
 	if (command == "size")
+	{
 		ss >> m_fileData.screenWidth >> m_fileData.screenHeight;
+	}
 
 	else if (command == "camera")
+	{
 		ss
-		>> m_fileData.eyeX >> m_fileData.eyeY >> m_fileData.eyeZ
-		>> m_fileData.atX >> m_fileData.atY >> m_fileData.atZ
-		>> m_fileData.upX >> m_fileData.upY >> m_fileData.upZ
-		>> m_fileData.fieldOfViewY;
+			>> m_fileData.eyeX >> m_fileData.eyeY >> m_fileData.eyeZ
+			>> m_fileData.atX >> m_fileData.atY >> m_fileData.atZ
+			>> m_fileData.upX >> m_fileData.upY >> m_fileData.upZ
+			>> m_fileData.fieldOfViewY;
+	}
 		
+	else if (command == "maxverts")
+	{
+		UINT maxVertices;
+		ss >> maxVertices;
+		m_vertices.reserve(maxVertices);
+	}
+	
+	else if (command == "vertex")
+	{
+		Point<float> vertex;
+		ss >> vertex.x >> vertex.y >> vertex.z;
+		m_vertices.push_back(vertex);
+	}
+
+	else if (command == "tri")
+	{
+		UINT index1, index2, index3;
+		ss >> index1 >> index2 >> index3;
+
+		vector<Point<float>> vertices(3);
+		vertices[0] = m_vertices[index1];
+		vertices[1] = m_vertices[index2];
+		vertices[2] = m_vertices[index3];
+
+		vector<UINT> indices(3);
+		indices[0] = 0;
+		indices[1] = 1;
+		indices[2] = 2;
+		
+		GenericMesh triangleMesh;
+		triangleMesh.Initialize(vertices, indices);
+
+		Model<GenericMesh> triangleModel;
+		triangleModel.Initialize(triangleMesh, m_material);
+		scene.AddGenericMesh(triangleModel);
+	}
+
+	return true;
 }

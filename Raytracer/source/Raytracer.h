@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "Ray.h"
 #include "Sphere.h"
 
@@ -12,7 +14,7 @@ public:
 	const Ray& GetPixelRay(int line, int column);
 
 private:
-	Ray* m_rays;
+	std::vector<Ray> m_rays;
 	int m_screenWidth;
 	int m_screenHeight;
 };

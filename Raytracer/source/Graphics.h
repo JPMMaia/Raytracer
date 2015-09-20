@@ -3,6 +3,7 @@
 #include "Camera.h"
 #include "Image.h"
 #include "Raytracer.h"
+#include "Scene.h"
 
 typedef unsigned int UINT;
 
@@ -12,7 +13,7 @@ public:
 	bool Initialize(UINT screenWidth, UINT screenHeight);
 	void Shutdown();
 
-	bool Render();
+	bool Render(const Scene& scene);
 
 private:
 	Camera m_camera;

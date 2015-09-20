@@ -3,7 +3,9 @@
 #include <fstream>
 #include <string>
 
+#include "GenericMesh.h"
 #include "Model.h"
+#include "Scene.h"
 #include "Sphere.h"
 
 class TestFileReader
@@ -16,12 +18,14 @@ public:
 	};
 
 public:
-	bool Initialize(const std::wstring& filename);
+	bool Run(const std::wstring& filename, Scene& scene);
 
 private:
-	void ReadLine();
+	bool ReadLine(Scene& scene);
 
 private:
 	std::ifstream m_fileStream;
 	FileData m_fileData;
+	std::vector<Point<float>> m_vertices;
+	Material m_material;
 };

@@ -21,14 +21,14 @@ struct PointLight
 	{
 	}
 
-	inline void CalculateLightColor(const Point<>& point, const Vector<>& normal, const Vector<>& viewDirection, const Material& material, Color<>& calculatedColor) const
+	inline void CalculateLightColor(const Point<>& point, const Vector3<>& normal, const Vector3<>& viewDirection, const Material& material, Color<>& calculatedColor) const
 	{
 		// Calculate the normalized light direction:
-		Vector<> lightDirection = this->position - point;
+		Vector3<> lightDirection = this->position - point;
 		lightDirection.normalize();
 
 		// Calculate the normalized half vector:
-		Vector<> halfVector = viewDirection + lightDirection;
+		Vector3<> halfVector = viewDirection + lightDirection;
 		halfVector.normalize();
 
 		// Calculate diffuse color:
@@ -39,5 +39,6 @@ struct PointLight
 
 		// TODO Add visibility/shadowing term:
 		calculatedColor = diffuseColor + specularColor;
+		calculatedColor.alpha = 1.0f;
 	}
 };

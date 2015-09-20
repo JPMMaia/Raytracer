@@ -2,8 +2,10 @@
 
 bool Application::Initialize(const std::wstring& filename)
 {
+	m_scene.Initialize(10, 10);
+
 	TestFileReader fileReader;
-	if (!fileReader.Initialize(filename))
+	if (!fileReader.Run(filename, m_scene))
 		return false;
 
 	if (!m_graphics.Initialize(512, 512))
@@ -18,5 +20,5 @@ void Application::Shutdown()
 
 void Application::Render()
 {
-	m_graphics.Render();
+	m_graphics.Render(m_scene);
 }

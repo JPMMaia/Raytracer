@@ -49,6 +49,15 @@
     <Filter Include="Source Files\Models">
       <UniqueIdentifier>{413f8213-f246-4dfd-a0d8-ea47028e8a45}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Scenes">
+      <UniqueIdentifier>{3d9782a3-4083-4e38-a48f-365ac988514b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scenes">
+      <UniqueIdentifier>{a89e088c-b55b-4e48-99c9-824f37564770}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Pool">
+      <UniqueIdentifier>{000b4a48-6388-409b-94cf-ce057afbaf55}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp">
@@ -78,15 +87,15 @@
     <ClCompile Include="source\TestFileReader.cpp">
       <Filter>Source Files\Reader</Filter>
     </ClCompile>
-    <ClCompile Include="source\GenericMesh.cpp">
+    <ClCompile Include="source\Face.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GenericMesh.cpp">
+      <Filter>Source Files\Meshes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Image.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\Graphics.h">
@@ -99,9 +108,6 @@
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
     <ClInclude Include="source\Ray.h">
-      <Filter>Header Files\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Vector.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
     <ClInclude Include="source\PointLight.h">
@@ -140,9 +146,30 @@
     <ClInclude Include="source\Face.h">
       <Filter>Header Files\Meshes</Filter>
     </ClInclude>
+    <ClInclude Include="source\Scene.h">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Matrix2x2.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Application.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Vector3.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Vector2.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ObjectPool.h">
+      <Filter>Header Files\Pool</Filter>
+    </ClInclude>
+    <ClInclude Include="source\PoolObject.h">
+      <Filter>Header Files\Pool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\UnitTestProject\resources\scene1.test">
+    <None Include="resources\scene1.test">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

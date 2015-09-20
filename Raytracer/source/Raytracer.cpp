@@ -9,7 +9,7 @@ bool Raytracer::Initialize(int screenWidth, int screenHeight)
 	float pixelCenterY = 0.5f / static_cast<float>(screenHeight);
 
 	int rayCount = screenWidth * screenHeight;
-	m_rays = new Ray[rayCount];
+	m_rays.resize(rayCount);
 
 	Ray ray;
 	ray.direction.z = -1.0f;
@@ -36,11 +36,7 @@ bool Raytracer::Initialize(int screenWidth, int screenHeight)
 
 void Raytracer::Shutdown()
 {
-	if (m_rays)
-	{
-		delete m_rays;
-		m_rays = 0;
-	}
+	m_rays.clear();
 }
 
 const Ray& Raytracer::GetPixelRay(int line, int column)

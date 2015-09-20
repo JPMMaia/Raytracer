@@ -1,16 +1,32 @@
 #include "GenericMesh.h"
 
-void GenericMesh::Initialize(UINT maxNumVertex)
+void GenericMesh::Initialize(std::vector<Point<float>>& vertices, std::vector<UINT>& indices)
 {
-	// Reserve memory for vertices:
-	m_vertices.reserve(maxNumVertex);
+	m_vertices.swap(vertices);
+
+	UINT numFaces = indices.size() / 3;
+	m_faces.reserve(numFaces);
+	UINT indicesIndex = 0;
+	for (UINT i = 0; i < numFaces; i++)
+	{
+		m_faces.push_back(
+			Face(
+				m_vertices[indices[indicesIndex++]],
+				m_vertices[indices[indicesIndex++]],
+				m_vertices[indices[indicesIndex++]]
+				)
+			);
+	}
 }
 
-void GenericMesh::Shutdown()
+bool GenericMesh::Intersect(const Ray & ray, Point<float>& intersection, Vector3<float>& normal) const
 {
-}
+	// If the ray intersects any of the faces, return true:
+	for (UINT i = 0; i < m_faces.size(); i++)
+	{
+		if (m_faces[i].Intersect(ray, intersection, normal))
+			return true;
+	}
 
-void GenericMesh::AddTriangle(UINT index1, UINT index2, UINT index3)
-{
-	m_indices.push_back(Face(index1, index2, index3));
+	return false;
 }

@@ -20,8 +20,8 @@ namespace UnitTestProject
 		TEST_METHOD(CalculateLightColor1)
 		{
 			Point<> intersection = Point<>(1.0f, 0.0f, 0.0f);
-			Vector<> normal = Vector<>(-1.0f, 0.0f, 0.0f);
-			Vector<> viewDirection = Vector<>(-1.0f, 0.0f, 0.0f);
+			Vector3<> normal = Vector3<>(-1.0f, 0.0f, 0.0f);
+			Vector3<> viewDirection = Vector3<>(-1.0f, 0.0f, 0.0f);
 			Material diffuseMaterial = Material(Color<>(0.0f, 0.0f, 0.0f, 0.0f), Color<>(0.8f, 0.8f, 0.8f, 1.0f), Color<>(0.0f, 0.0f, 0.0f, 1.0f), 1.0f);
 			Material specularMaterial = Material(Color<>(0.0f, 0.0f, 0.0f, 0.0f), Color<>(0.0f, 0.0f, 0.0f, 1.0f), Color<>(0.6f, 0.6f, 0.6f, 1.0f), 1.0f);
 			Color<> calculatedColor;
