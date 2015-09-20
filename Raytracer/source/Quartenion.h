@@ -10,52 +10,28 @@ struct Quartenion
 	float y;
 	float z;
 
-	Quartenion& operator*=(const Quartenion& other)
-	{
-		w = w*other.w - x*other.x - y*other.y - z*other.z;
-		x = w*other.x + x*other.w + y*other.z - z*other.y;
-		y = w*other.y + y*other.w + z*other.x - x*other.z;
-		z = w*other.z + z*other.w + x*other.y - y*other.x;
+	Quartenion();
+	Quartenion(float w, float x, float y, float z);
 
-		return *this;
-	}
+	Quartenion Conjugate() const;
+	inline float Norm() const;
+	inline float NormSquared() const;
+	Quartenion& Normalize();
+	Quartenion Inverse() const;
 
-	/*static Quartenion FromAxisAngle(const Vector3<float>& axis, float angle)
-	{
-		// Convert from degrees to radians:
-		angle *= Constants::PI_OVER_180;
+	Quartenion operator+(const Quartenion& other) const;
+	Quartenion operator*(const Quartenion& other) const;
+	Quartenion& operator+=(const Quartenion& other);
+	Quartenion& operator*=(const Quartenion& other);
 
-		Quartenion quartenion;
+	Quartenion operator*(float value) const;
+	Quartenion operator/(float value) const;
+	Quartenion& operator*=(float value);
+	Quartenion& operator/=(float value);
 
-		Vector3<float> normalizedAxis = axis.normalizedVector();
-		float halfAngle = angle * 0.5f;
-		float sinAngle = sinf(halfAngle);
-	
-		quartenion.x = normalizedAxis.x * sinAngle;
-		quartenion.y = normalizedAxis.y * sinAngle;
-		quartenion.z = normalizedAxis.z * sinAngle;
-
-		quartenion.w = cosf(halfAngle);
-
-		return quartenion;
-	}
-
-	static Quartenion FromEulerAngles(float roll, float pitch, float yaw)
-	{
-		Quartenion rollQuartenion = FromAxisAngle(Vector3<float>(1.0f, 0.0f, 0.0f), roll);
-		Quartenion pitchQuartenion = FromAxisAngle(Vector3<float>(0.0f, 1.0f, 0.0f), pitch);
-		Quartenion yawQuartenion = FromAxisAngle(Vector3<float>(0.0f, 0.0f, 1.0f), yaw);
-
-		return yawQuartenion * pitchQuartenion * rollQuartenion;
-	}*/
+	static Vector3<float> Rotate(const Vector3<float>& vector, const Vector3<float>& axis, float angle);
+	static Quartenion FromAxisAngle(const Vector3<float>& axis, float angle);
+	static Quartenion FromEulerAngles(float roll, float pitch, float yaw);
 };
 
-inline Quartenion operator*(Quartenion lhs, const Quartenion& rhs)
-{
-	return lhs *= rhs;
-}
-
-inline Vector3<float> operator*(const Quartenion& quartenion, const Vector3<float>& vector)
-{
-	
-}
+inline Vector3<float> operator*(const Quartenion& quartenion, const Vector3<float>& vector);
