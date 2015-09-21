@@ -105,6 +105,17 @@ bool TestFileReader::ReadLine(Scene& scene)
 		scene.AddGenericMesh(triangleModel);
 	}
 
+	else if (command == "sphere")
+	{
+		float x, y, z, radius;
+		ss >> x >> y >> z >> radius;
+
+		Sphere sphereMesh(Point<float>(x, y, z), radius);
+		Model<Sphere> sphere;
+		sphere.Initialize(sphereMesh, m_material);
+		scene.AddSphere(sphere);
+	}
+
 	else if (command == "ambient")
 		ss 
 		>> m_material.ambientColor.red 

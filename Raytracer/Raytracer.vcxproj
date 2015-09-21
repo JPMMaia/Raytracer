@@ -192,6 +192,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\scene1.test" />
+    <None Include="resources\scene2.test" />
+    <None Include="resources\scene3.test" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

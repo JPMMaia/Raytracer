@@ -175,5 +175,11 @@
     <None Include="resources\scene1.test">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="resources\scene2.test">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\scene3.test">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
