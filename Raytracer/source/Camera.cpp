@@ -1,25 +1,17 @@
 #include "Camera.h"
+#include "Constants.h"
 
 void Camera::Initialize(const Point<>& eye, const Point<>& at, const Vector3<>& up)
 {
-	Vector3<> upDirection = up.normalizedVector();
+	m_position = eye;
 
-	Vector3<> viewDirection = at - eye;
-	viewDirection.normalize();
+	m_viewDirection = at - eye;
+	m_viewDirection.normalize();
 	
-	Vector3<> rightDirection = upDirection.cross(viewDirection);
+	m_leftDirection = up.cross(m_viewDirection);
+	m_leftDirection.normalize();
 
-	m_translation = eye;
-}
-
-void Camera::Update()
-{
-	if (m_dirty)
-	{
-		
-
-		m_dirty = false;
-	}
+	m_upDirection = m_viewDirection.cross(m_leftDirection);
 }
 
 const Point<float>& Camera::GetPosition() const
@@ -27,8 +19,17 @@ const Point<float>& Camera::GetPosition() const
 	return m_position;
 }
 
-void Camera::SetTranslation(const Point<float>& translation)
+const Vector3<float>& Camera::GetLeftDirection() const
 {
-	m_translation = translation;
-	m_dirty = true;
+	return m_leftDirection;
+}
+
+const Vector3<float>& Camera::GetUpDirection() const
+{
+	return m_upDirection;
+}
+
+const Vector3<float>& Camera::GetViewDirection() const
+{
+	return m_viewDirection;
 }

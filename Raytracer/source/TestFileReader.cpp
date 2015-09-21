@@ -21,6 +21,11 @@ bool TestFileReader::Run(const std::wstring& filename, Scene& scene)
 	return true;
 }
 
+const TestFileReader::FileData& TestFileReader::GetFileData() const
+{
+	return m_fileData;
+}
+
 bool TestFileReader::ReadLine(Scene& scene)
 {
 	string line;
@@ -53,6 +58,14 @@ bool TestFileReader::ReadLine(Scene& scene)
 			>> m_fileData.atX >> m_fileData.atY >> m_fileData.atZ
 			>> m_fileData.upX >> m_fileData.upY >> m_fileData.upZ
 			>> m_fileData.fieldOfViewY;
+
+		Camera camera;
+		camera.Initialize(
+			Point<>(m_fileData.eyeX, m_fileData.eyeY, m_fileData.eyeZ),
+			Point<>(m_fileData.atX, m_fileData.atY, m_fileData.atZ),
+			Vector3<>(m_fileData.upX, m_fileData.upY, m_fileData.upZ)
+			);
+		scene.AddCamera(camera);
 	}
 		
 	else if (command == "maxverts")

@@ -99,13 +99,18 @@ Quartenion & Quartenion::operator/=(float value)
 	return *this;
 }
 
+Vector3<float> Quartenion::Rotate(const Vector3<float>& vector, const Quartenion & rotateQuartenion)
+{
+	Quartenion result = rotateQuartenion * Quartenion(0.0f, vector.x, vector.y, vector.z) * rotateQuartenion.Conjugate();
+
+	return Vector3<float>(result.x, result.y, result.z);
+}
+
 Vector3<float> Quartenion::Rotate(const Vector3<float>& vector, const Vector3<float>& axis, float angle)
 {
 	Quartenion rotateQuartenion = Quartenion::FromAxisAngle(axis, angle);
 
-	Quartenion result = rotateQuartenion * Quartenion(0.0f, vector.x, vector.y, vector.z) * rotateQuartenion.Conjugate();
-
-	return Vector3<float>(result.x, result.y, result.z);
+	return Quartenion::Rotate(vector, rotateQuartenion);
 }
 
 Quartenion Quartenion::FromAxisAngle(const Vector3<float>& axis, float angle)
@@ -113,7 +118,7 @@ Quartenion Quartenion::FromAxisAngle(const Vector3<float>& axis, float angle)
 	Quartenion quartenion;
 
 	// Convert from degrees to radians:
-	angle *= Constants::PI_OVER_180;
+	angle *= Constants::DEGREES_TO_RADIANS;
 	float halfAngle = angle * 0.5f;
 
 	quartenion.w = cosf(halfAngle);

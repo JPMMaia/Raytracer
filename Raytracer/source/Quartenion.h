@@ -29,6 +29,7 @@ struct Quartenion
 	Quartenion& operator*=(float value);
 	Quartenion& operator/=(float value);
 
+	static Vector3<float> Rotate(const Vector3<float>& vector, const Quartenion& rotateQuartenion);
 	static Vector3<float> Rotate(const Vector3<float>& vector, const Vector3<float>& axis, float angle);
 	static Quartenion FromAxisAngle(const Vector3<float>& axis, float angle);
 	static Quartenion FromEulerAngles(float roll, float pitch, float yaw);

@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "Camera.h"
 #include "GenericMesh.h"
 #include "Model.h"
 #include "Sphere.h"
@@ -13,8 +14,12 @@ public:
 
 	bool Intersect(const Ray& ray, Point<>& intersection, Vector3<>& normal, const Material*& material) const;
 
+	void AddCamera(const Camera& camera);
 	void AddSphere(const Model<Sphere>& sphere);
 	void AddGenericMesh(const Model<GenericMesh>& genericMesh);
+	
+	Camera& GetCurrentCamera() const;
+	void SetCurrentCamera(UINT index);
 
 private:
 	template<class MeshType>
@@ -23,6 +28,8 @@ private:
 private:
 	std::vector<Model<Sphere>> m_spheres;
 	std::vector<Model<GenericMesh>> m_genericMeshes;
+	std::vector<Camera> m_cameras;
+	Camera* m_currentCamera;
 };
 
 template<class MeshType>

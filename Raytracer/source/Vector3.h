@@ -74,6 +74,15 @@ struct Vector3
 			this->z + other.z
 			);
 	}
+
+	inline Vector3<T> operator-() const
+	{
+		return Vector3<T>(
+			-this->x,
+			-this->y,
+			-this->z
+			);
+	}
 };
 
 template<class T>

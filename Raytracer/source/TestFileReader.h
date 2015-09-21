@@ -20,6 +20,8 @@ public:
 public:
 	bool Run(const std::wstring& filename, Scene& scene);
 
+	const FileData& GetFileData() const;
+
 private:
 	bool ReadLine(Scene& scene);
 

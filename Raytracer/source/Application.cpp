@@ -8,8 +8,12 @@ bool Application::Initialize(const std::wstring& filename)
 	if (!fileReader.Run(filename, m_scene))
 		return false;
 
-	if (!m_graphics.Initialize(512, 512))
+	const TestFileReader::FileData& fileData = fileReader.GetFileData();
+
+	if (!m_graphics.Initialize(fileData.screenWidth, fileData.screenHeight, fileData.fieldOfViewY))
 		return false;
+
+	m_scene.SetCurrentCamera(1);
 
 	return true;
 }

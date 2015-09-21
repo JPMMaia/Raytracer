@@ -4,7 +4,7 @@
 #include "Property.h"
 #include "Scene.h"
 
-bool Graphics::Initialize(UINT screenWidth, UINT screenHeight)
+bool Graphics::Initialize(UINT screenWidth, UINT screenHeight, float fieldOfViewY)
 {
 	m_screenWidth = screenWidth;
 	m_screenHeight = screenHeight;
@@ -17,38 +17,36 @@ bool Graphics::Initialize(UINT screenWidth, UINT screenHeight)
 		return false;
 
 	// Initialize raytracer:
-	if (!m_raytracer.Initialize(screenWidth, screenHeight))
+	if (!m_raytracer.Initialize(screenWidth, screenHeight, 1.0f / tanf(fieldOfViewY * Constants::DEGREES_TO_RADIANS * 0.5f)))
 		return false;
-
-	// Initialize camera at the origin looking at -Z:
-	m_camera.Initialize(Point<>(0.0f, 0.0f, 0.0f), Point<>(0.0f, 0.0f, 1.0f), Vector3<>(0.0f, 1.0f, 0.0f));
 
 	return true;
 }
 void Graphics::Shutdown()
 {
-	m_raytracer.Shutdown();
-
 	// Release Free Image resources: 
 	FreeImage_DeInitialise();
 }
 
 bool Graphics::Render(const Scene& scene)
 {
-	Sphere sphere = Sphere(Point<>(0.0f, 0.0f, -4.0f), 1.0f);
 	Point<> intersection;
 	Vector3<> normal;
 	PointLight pointLight = PointLight(Point<>(2.0f, 2.0f, -2.0f), Color<>(0.7f, 0.7f, 0.7f, 1.0f));
 	const Material* material;
 	Color<> color;
-	const Point<>& cameraPosition = Point<>(0.0f, 0.0f, 4.0f);
+
+	Camera& camera = scene.GetCurrentCamera();
+	const Point<>& cameraPosition = camera.GetPosition();
+	const Vector3<>& cameraLeftDirection = camera.GetLeftDirection();
+	const Vector3<>& cameraUpDirection = camera.GetUpDirection();
+	const Vector3<>& cameraViewDirection = camera.GetViewDirection();
 	
-	for (UINT i = 0; i < m_screenWidth; i++)
+	for (UINT i = 0; i < m_screenHeight; i++)
 	{
-		for (UINT j = 0; j < m_screenHeight; j++)
+		for (UINT j = 0; j < m_screenWidth; j++)
 		{
-			Ray ray = m_raytracer.GetPixelRay(i, j);
-			ray.origin = cameraPosition;
+			Ray ray = m_raytracer.CalculatePixelRay(cameraPosition, cameraLeftDirection, cameraUpDirection, cameraViewDirection, i, j);
 
 			if (scene.Intersect(ray, intersection, normal, material))
 			{

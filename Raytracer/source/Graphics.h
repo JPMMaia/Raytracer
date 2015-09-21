@@ -10,7 +10,7 @@ typedef unsigned int UINT;
 class Graphics
 {
 public:
-	bool Initialize(UINT screenWidth, UINT screenHeight);
+	bool Initialize(UINT screenWidth, UINT screenHeight, float fieldOfViewY);
 	void Shutdown();
 
 	bool Render(const Scene& scene);
