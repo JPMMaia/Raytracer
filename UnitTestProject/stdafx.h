@@ -11,6 +11,8 @@
 #include "CppUnitTest.h"
 
 // TODO: reference additional headers your program requires here
+#include "Camera.h"
 #include "Face.h"
-#include "ObjectPool.h"
 #include "PointLight.h"
+#include "Raytracer.h"
+#include "Quartenion.h"

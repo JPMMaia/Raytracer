@@ -32,7 +32,10 @@
     <ClCompile Include="FaceTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectPoolTest.cpp">
+    <ClCompile Include="QuartenionTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RaytracerTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

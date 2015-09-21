@@ -1,6 +1,8 @@
 #pragma once
 
 #include <fstream>
+#include <glm\matrix.hpp>
+#include <stack>
 #include <string>
 
 #include "GenericMesh.h"
@@ -24,10 +26,16 @@ public:
 
 private:
 	bool ReadLine(Scene& scene);
+	
+	void PushTransform();
+	void PopTransform();
+	void MultiplyTransform(const glm::mat4& transform);
 
 private:
 	std::ifstream m_fileStream;
 	FileData m_fileData;
 	std::vector<Point<float>> m_vertices;
 	Material m_material;
+
+	std::stack<glm::mat4> m_transforms;
 };

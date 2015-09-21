@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glm\matrix.hpp>
+
 #include "Material.h"
 #include "Ray.h"
 
@@ -8,17 +10,19 @@ class Model
 {
 public:
 	Model();
-	Model(const MeshType& mesh, const Material& material);
+	Model(const MeshType& mesh, const Material& material, const glm::mat4& transform);
 
 	void Initialize(const MeshType& mesh, const Material& material);
 
 	bool Intersect(const Ray& ray, Point<>& intersection, float& distance, Vector3<>& normal) const;
 
 	const Material& GetMaterial() const;
+	const glm::mat4& GetTransform() const;
 
 private:
 	MeshType m_mesh;
 	Material m_material;
+	glm::mat4 m_transform;
 };
 
 template<class MeshType>
@@ -27,9 +31,10 @@ inline Model<MeshType>::Model()
 }
 
 template<class MeshType>
-inline Model<MeshType>::Model(const MeshType & mesh, const Material & material) :
+inline Model<MeshType>::Model(const MeshType & mesh, const Material & material, const glm::mat4& transform) :
 	m_mesh(mesh),
-	m_material(material)
+	m_material(material),
+	m_transform(transform)
 {
 }
 
@@ -50,4 +55,10 @@ template<class MeshType>
 inline const Material& Model<MeshType>::GetMaterial() const
 {
 	return m_material;
+}
+
+template<class MeshType>
+inline const glm::mat4 & Model<MeshType>::GetTransform() const
+{
+	return m_transform;
 }

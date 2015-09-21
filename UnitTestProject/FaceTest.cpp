@@ -19,10 +19,12 @@ namespace UnitTestProject
 
 			Point<> intersection;
 			Vector3<> normal;
+			float distance;
 			Assert::IsTrue(
 				face.Intersect(
 					Ray(Point<>(0.0f, 0.0f, 0.0f), Vector3<>(0.0f, 0.0f, -1.0f)),
 					intersection,
+					distance,
 					normal
 					)
 				);
@@ -31,6 +33,7 @@ namespace UnitTestProject
 				face.Intersect(
 					Ray(Point<>(-0.5f, 0.4f, 0.0f), Vector3<>(0.0f, 0.0f, -1.0f)),
 					intersection,
+					distance,
 					normal
 					)
 				);

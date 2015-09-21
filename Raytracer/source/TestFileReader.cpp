@@ -1,11 +1,16 @@
 #include "TestFileReader.h"
 
+#include <glm\gtc\matrix_transform.hpp>
+#include <glm\gtx\transform.hpp>
 #include <sstream>
 
+using namespace glm;
 using namespace std;
 
 bool TestFileReader::Run(const std::wstring& filename, Scene& scene)
 {
+	m_transforms.push(mat4());
+
 	// Open input file stream:
 	m_fileStream.open(filename, ios::in);
 	if (!m_fileStream.is_open())
@@ -134,5 +139,44 @@ bool TestFileReader::ReadLine(Scene& scene)
 		>> m_material.specularColor.green
 		>> m_material.specularColor.blue;
 
+	else if (command == "translate")
+	{
+		float tX, tY, tZ;
+		ss >> tX >> tY >> tZ;
+		MultiplyTransform(translate(vec3(tX, tY, tZ)));
+	}
+
+	else if (command == "rotate")
+	{
+		float rX, rY, rZ, angle;
+		ss >> rX >> rY >> rZ >> angle;
+		MultiplyTransform(rotate(angle, vec3(rX, rY, rZ)));
+	}
+
+	else if (command == "scale")
+	{
+		float sX, sY, sZ;
+		ss >> sX >> sY >> sZ;
+		MultiplyTransform(scale(vec3(sX, sY, sZ)));
+	}
+
 	return true;
+}
+
+void TestFileReader::PushTransform()
+{
+	m_transforms.push(m_transforms.top());
+}
+
+void TestFileReader::PopTransform()
+{
+	m_transforms.pop();
+}
+
+void TestFileReader::MultiplyTransform(const glm::mat4& transform)
+{
+	mat4 result = m_transforms.top() * transform;
+
+	m_transforms.pop();
+	m_transforms.push(result);
 }
