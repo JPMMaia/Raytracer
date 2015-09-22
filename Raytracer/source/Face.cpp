@@ -19,62 +19,32 @@ bool Face::Intersect(const Ray& ray, Point<float>& intersection, float& distance
 	float a = e1.dot(h);
 
 	if (a > -0.00001 && a < 0.00001)
-		return(false);
+		return false;
 
 	float f = 1 / a;
 	Vector3<float> s = ray.origin - this->vertex1;
 	float u = f * s.dot(h);
 
 	if (u < 0.0 || u > 1.0)
-		return(false);
+		return false;
 
 	Vector3<float> q = s.cross(e1);
 	float v = f * ray.direction.dot(q);
 
 	if (v < 0.0 || u + v > 1.0)
-		return(false);
+		return false;
 
-	// at this stage we can compute t to find out where
-	// the intersection point is on the line
 	distance = f * e2.dot(q);
 
-	if (distance > 0.00001) // ray intersection
+	// Ray intersection:
+	if (distance > 0.00001) 
 	{
 		intersection = ray.origin + ray.direction * distance;
 		normal = this->normal;
-		return(true);
+		return true;
 	}
-		
-
-	else // this means that there is a line intersection
-		 // but not a ray intersection
-		return (false);
-
-
-
-	/*// Check if ray direction is orthogonal to face normal:
-	float directionDotNormal = ray.direction.dot(this->normal);
-	if (directionDotNormal == 0.0f)
-		return false;
-
-	// Check intersection with triangle plane:
-	float t = (*this->vertex1 - ray.origin).dot(this->normal) / directionDotNormal;
-
-	// Calculate intersection point:
-	intersection = ray.origin + ray.direction * t;
-
-	Vector2<float> p = Vector2<float>(intersection.x - this->vertex1->x, intersection.y - this->vertex1->y);
-	Vector2<float> lambda = m_inverseMatrix * p;
-
-	if (lambda.x < 0.0f || lambda.x > 1.0f)
-		return false;
-
-	if (lambda.y < 0.0f || lambda.y > 1.0f)
-		return false;
-
-	normal = this->normal;
-
-	return true;*/
+	
+	return false;
 }
 
 void Face::CalculateNormal()

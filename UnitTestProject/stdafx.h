@@ -13,6 +13,6 @@
 // TODO: reference additional headers your program requires here
 #include "Camera.h"
 #include "Face.h"
-#include "PointLight.h"
+#include "Light.h"
 #include "Raytracer.h"
 #include "Quartenion.h"

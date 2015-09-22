@@ -1,6 +1,5 @@
 #include "Graphics.h"
 #include "Sphere.h"
-#include "PointLight.h"
 #include "Property.h"
 #include "Scene.h"
 
@@ -32,8 +31,6 @@ bool Graphics::Render(const Scene& scene)
 {
 	Point<> intersection;
 	Vector3<> normal;
-	PointLight pointLight = PointLight(Point<>(2.0f, 2.0f, -2.0f), Color<>(0.7f, 0.7f, 0.7f, 1.0f));
-	const Material* material;
 	Color<> color;
 
 	Camera& camera = scene.GetCurrentCamera();
@@ -48,16 +45,8 @@ bool Graphics::Render(const Scene& scene)
 		{
 			Ray ray = m_raytracer.CalculatePixelRay(cameraPosition, cameraLeftDirection, cameraUpDirection, cameraViewDirection, i, j);
 
-			if (scene.Intersect(ray, intersection, normal, material))
+			if (scene.CalculateColor(ray, cameraPosition, color))
 			{
-				Vector3<> viewDirection = intersection - cameraPosition;
-
-				// Calculate color:
-				pointLight.CalculateLightColor(intersection, normal, viewDirection, *material, color);
-
-				// Add ambient color:
-				color = color + material->ambientColor;
-
 				// Add color to pixel:
 				m_renderBuffer.AddPixelColor(m_screenHeight - i, j, color);
 			}

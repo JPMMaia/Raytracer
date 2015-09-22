@@ -99,7 +99,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Raytracer\libraries;$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(SolutionDir)Raytracer\Debug\Face.obj;$(SolutionDir)Raytracer\Debug\Raytracer.obj;$(SolutionDir)Raytracer\Debug\Quartenion.obj;$(SolutionDir)Raytracer\Debug\Camera.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(SolutionDir)Raytracer\Debug\Face.obj;$(SolutionDir)Raytracer\Debug\Raytracer.obj;$(SolutionDir)Raytracer\Debug\Quartenion.obj;$(SolutionDir)Raytracer\Debug\Camera.obj;$(SolutionDir)Raytracer\Debug\Light.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -169,7 +169,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="PointLightTest.cpp" />
+    <ClCompile Include="LightTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Raytracer\Raytracer.vcxproj">

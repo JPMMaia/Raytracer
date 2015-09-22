@@ -12,7 +12,67 @@ void Scene::Initialize(UINT maxSpheres, UINT maxGenericMeshes)
 	SetCurrentCamera(0);
 }
 
-bool Scene::Intersect(const Ray & ray, Point<>& intersection, Vector3<>& normal, const Material*& material) const
+bool Scene::CalculateColor(const Ray& ray, Point<float> cameraPosition, Color<float>& color) const
+{
+	color = Color<float>(0.0f, 0.0f, 0.0f, 1.0f);
+
+	// Find the nearest object to the camera:
+	Point<float> intersection;
+	Vector3<float> normal;
+	const Material* material;
+	if (!FindNearestIntersection(ray, intersection, normal, material))
+		return false;
+
+	// Add ambient color:
+	color = color + material->ambientColor;
+
+	Color<float> lightColor;
+	Vector3<float> viewDirection = cameraPosition - intersection;
+	for (UINT i = 0; i < m_lights.size(); i++)
+	{
+		const Light& light = m_lights[i];
+
+		// If there isn't any object blocking the light:
+		if (IsLightUnblocked(light, intersection))
+		{
+			// Calculate light color from light:
+			light.CalculateLightColor(intersection, normal, viewDirection, *material, lightColor);
+
+			// Add to the final color:
+			color = Color<float>(color.red + lightColor.red, color.green + lightColor.green, color.blue + lightColor.blue, 1.0f);
+		}
+	}
+
+	return  true;
+}
+
+void Scene::AddCamera(const Camera& camera)
+{
+	m_cameras.push_back(camera);
+}
+void Scene::AddSphere(const Model<Sphere>& sphere)
+{
+	m_spheres.push_back(sphere);
+}
+void Scene::AddGenericMesh(const Model<GenericMesh>& genericMesh)
+{
+	m_genericMeshes.push_back(genericMesh);
+}
+void Scene::AddLight(const Light& light)
+{
+	m_lights.push_back(light);
+}
+
+Camera& Scene::GetCurrentCamera() const
+{
+	return *m_currentCamera;
+}
+void Scene::SetCurrentCamera(UINT index)
+{
+	m_currentCamera = &m_cameras[index];
+}
+
+bool Scene::FindNearestIntersection(const Ray& ray, Point<>& intersection, Vector3<>& normal, const Material*& material) const
 {
 	bool result = false;
 
@@ -23,27 +83,24 @@ bool Scene::Intersect(const Ray & ray, Point<>& intersection, Vector3<>& normal,
 
 	return result;
 }
+bool Scene::IsLightUnblocked(const Light& light, const Point<float>& point) const
+{
+	Vector3<float> lightDirection = light.GetPosition() - point;
 
-void Scene::AddCamera(const Camera& camera)
-{
-	m_cameras.push_back(camera);
-}
+	// Create a ray to cast at the direction of the light:
+	Ray ray(point, lightDirection);
 
-void Scene::AddSphere(const Model<Sphere>& sphere)
-{
-	m_spheres.push_back(sphere);
-}
+	// Add a little bit of offset to handle the numeric errors:
+	ray.origin = ray.origin + ray.direction * 0.001f;
 
-void Scene::AddGenericMesh(const Model<GenericMesh>& genericMesh)
-{
-	m_genericMeshes.push_back(genericMesh);
-}
+	// Calculate distance between the light and the intersection point:
+	float lightDistance = lightDirection.length();
+	
+	// Find if there is any object between the light and the object:
+	if (!IsLightUnblocked<Sphere>(m_spheres, light, lightDistance, ray) ||
+		!IsLightUnblocked<GenericMesh>(m_genericMeshes, light, lightDistance, ray)
+		)
+		return false;
 
-Camera& Scene::GetCurrentCamera() const
-{
-	return *m_currentCamera;
-}
-void Scene::SetCurrentCamera(UINT index)
-{
-	m_currentCamera = &m_cameras[index];
+	return true;
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <glm\matrix.hpp>
 #include <math.h>
 
 #include "Vector2.h"
@@ -98,4 +99,21 @@ template<class T>
 inline Vector3<T> operator*(const Vector3<T>& vector, float scalar)
 {
 	return scalar * vector;
+}
+
+template<class T>
+Vector3<T> operator*(const Vector3<T>& vector, const glm::mat4& matrix)
+{
+	glm::vec4 result(vector.x, vector.y, vector.z, 0.0f);
+	result = result * matrix;
+
+	return Vector3<T>(result.x, result.y, result.z);
+}
+template<class T>
+Vector3<T> operator*(const glm::mat4& matrix, const Vector3<T>& vector)
+{
+	glm::vec4 result(vector.x, vector.y, vector.z, 0.0f);
+	result = matrix * result;
+
+	return Vector3<T>(result.x, result.y, result.z);
 }

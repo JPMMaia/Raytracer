@@ -37,3 +37,20 @@ struct Point
 			);
 	}
 };
+
+template<class T>
+Point<T> operator*(const Point<T>& point, const glm::mat4& matrix)
+{
+	glm::vec4 result(point.x, point.y, point.z, 1.0f);
+	result = result * matrix;
+
+	return Point<T>(result.x, result.y, result.z);
+}
+template<class T>
+Point<T> operator*(const glm::mat4& matrix, const Point<T>& point)
+{
+	glm::vec4 result(point.x, point.y, point.z, 1.0f);
+	result = matrix * result;
+
+	return Point<T>(result.x, result.y, result.z);
+}

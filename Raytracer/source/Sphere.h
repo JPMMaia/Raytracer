@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glm\matrix.hpp>
+
 #include "Vector3.h"
 #include "Point.h"
 #include "Ray.h"

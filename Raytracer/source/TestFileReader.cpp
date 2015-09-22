@@ -92,10 +92,11 @@ bool TestFileReader::ReadLine(Scene& scene)
 		UINT index1, index2, index3;
 		ss >> index1 >> index2 >> index3;
 
+		glm::mat4 transform = m_transforms.top();
 		vector<Point<float>> vertices(3);
-		vertices[0] = m_vertices[index1];
-		vertices[1] = m_vertices[index2];
-		vertices[2] = m_vertices[index3];
+		vertices[0] = transform * m_vertices[index1];
+		vertices[1] = transform * m_vertices[index2];
+		vertices[2] = transform * m_vertices[index3];
 
 		vector<UINT> indices(3);
 		indices[0] = 0;
@@ -115,7 +116,7 @@ bool TestFileReader::ReadLine(Scene& scene)
 		float x, y, z, radius;
 		ss >> x >> y >> z >> radius;
 
-		Sphere sphereMesh(Point<float>(x, y, z), radius);
+		Sphere sphereMesh(m_transforms.top() * Point<float>(x, y, z), radius);
 		Model<Sphere> sphere;
 		sphere.Initialize(sphereMesh, m_material);
 		scene.AddSphere(sphere);
@@ -160,6 +161,32 @@ bool TestFileReader::ReadLine(Scene& scene)
 		MultiplyTransform(scale(vec3(sX, sY, sZ)));
 	}
 
+	else if (command == "pushTransform")
+		PushTransform();
+
+	else if (command == "popTransform")
+		PopTransform();
+
+	else if (command == "point")
+	{
+		float x, y, z, r, g, b;
+		ss >> x >> y >> z >> r >> g >> b;
+
+		Light light;
+		light.Initialize(Point<float>(x, y, z), Color<float>(r, g, b, 1.0f), false);
+		scene.AddLight(light);
+	}
+
+	else if (command == "directional")
+	{
+		float x, y, z, r, g, b;
+		ss >> x >> y >> z >> r >> g >> b;
+
+		Light light;
+		light.Initialize(Point<float>(x, y, z), Color<float>(r, g, b, 1.0f), true);
+		scene.AddLight(light);
+	}
+
 	return true;
 }
 
@@ -175,8 +202,7 @@ void TestFileReader::PopTransform()
 
 void TestFileReader::MultiplyTransform(const glm::mat4& transform)
 {
-	mat4 result = m_transforms.top() * transform;
+	mat4& result = m_transforms.top();
 
-	m_transforms.pop();
-	m_transforms.push(result);
+	result = result * transform;
 }
