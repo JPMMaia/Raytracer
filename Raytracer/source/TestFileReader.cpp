@@ -140,6 +140,9 @@ bool TestFileReader::ReadLine(Scene& scene)
 		>> m_material.specularColor.green
 		>> m_material.specularColor.blue;
 
+	else if (command == "shininess")
+		ss >> m_material.shininess;
+
 	else if (command == "translate")
 	{
 		float tX, tY, tZ;

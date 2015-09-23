@@ -79,7 +79,7 @@ inline bool Scene::IsLightUnblocked(const std::vector<Model<MeshType>>& meshes, 
 		if (meshes[i].Intersect(ray, tempPoint, distance, tempVector))
 		{
 			// If there is an object between the light and the intersection:
-			if (distance < lightDistance)
+			if (distance > 0.0f && distance < lightDistance)
 				return false;
 		}
 	}

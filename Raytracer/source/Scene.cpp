@@ -24,7 +24,7 @@ bool Scene::CalculateColor(const Ray& ray, Point<float> cameraPosition, Color<fl
 		return false;
 
 	// Add ambient color:
-	color = color + material->ambientColor;
+	color = material->ambientColor;
 
 	Color<float> lightColor;
 	Vector3<float> viewDirection = cameraPosition - intersection;

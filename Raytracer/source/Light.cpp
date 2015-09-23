@@ -21,10 +21,12 @@ void Light::CalculateLightColor(const Point<float>& point, const Vector3<float>&
 	halfVector.normalize();
 
 	// Calculate diffuse color:
-	Color<> diffuseColor = material.diffuseColor * fmaxf(0.0f, lightDirection.dot(normal));
+	float diffuseIntensity = fmaxf(0.0f, lightDirection.dot(normal));
+	Color<> diffuseColor = material.diffuseColor * diffuseIntensity;
 
 	// Calculate specular color:
-	Color<> specularColor = material.specularColor * powf(fmaxf(0.0f, halfVector.dot(normal)), material.shininess);
+	float specularIntensity = powf(fmaxf(0.0f, halfVector.dot(normal)), material.shininess);
+	Color<> specularColor = material.specularColor * specularIntensity;
 
 	// TODO Add visibility/shadowing term:
 	calculatedColor = diffuseColor + specularColor;
