@@ -10,18 +10,21 @@ class Model
 {
 public:
 	Model();
-	Model(const MeshType& mesh, const Material& material);
+	Model(const MeshType& mesh, const Material& material, const glm::mat4& transform);
 
-	void Initialize(const MeshType& mesh, const Material& material);
+	void Initialize(const MeshType& mesh, const Material& material, const glm::mat4& transform);
 
 	bool Intersect(const Ray& ray, Point<>& intersection, float& distance, Vector3<>& normal) const;
 
 	const Material& GetMaterial() const;
 	const glm::mat4& GetTransform() const;
+	const glm::mat4& GetInverseTransform() const;
 
 private:
 	MeshType m_mesh;
 	Material m_material;
+	glm::mat4 m_transform;
+	glm::mat4 m_inverseTransform;
 };
 
 template<class MeshType>
@@ -30,17 +33,18 @@ inline Model<MeshType>::Model()
 }
 
 template<class MeshType>
-inline Model<MeshType>::Model(const MeshType & mesh, const Material & material) :
-	m_mesh(mesh),
-	m_material(material)
+inline Model<MeshType>::Model(const MeshType & mesh, const Material & material, const glm::mat4& transform)
 {
+	Initialize(mesh, material, transform);
 }
 
 template<class MeshType>
-inline void Model<MeshType>::Initialize(const MeshType& mesh, const Material& material)
+inline void Model<MeshType>::Initialize(const MeshType& mesh, const Material& material, const glm::mat4& transform)
 {
 	m_mesh = mesh;
 	m_material = material;
+	m_transform = transform;
+	m_inverseTransform = glm::inverse(transform);
 }
 
 template<class MeshType>
@@ -56,7 +60,13 @@ inline const Material& Model<MeshType>::GetMaterial() const
 }
 
 template<class MeshType>
-inline const glm::mat4 & Model<MeshType>::GetTransform() const
+inline const glm::mat4& Model<MeshType>::GetTransform() const
 {
 	return m_transform;
+}
+
+template<class MeshType>
+inline const glm::mat4 & Model<MeshType>::GetInverseTransform() const
+{
+	return m_inverseTransform;
 }

@@ -12,7 +12,7 @@ namespace UnitTestProject
 		TEST_METHOD(CalculateLightColor1)
 		{
 			Light light;
-			light.Initialize(Point<>(0.0f, 0.0f, 0.0f), Color<>(1.0f, 1.0f, 1.0f, 1.0f), 1.0f, 0.0f, 0.0f);
+			light.Initialize(Point<>(0.0f, 0.0f, 0.0f), Color<>(1.0f, 1.0f, 1.0f, 1.0f), false, 1.0f, 0.0f, 0.0f);
 
 			Point<> intersection = Point<>(1.0f, 0.0f, 0.0f);
 			Vector3<> normal = Vector3<>(-1.0f, 0.0f, 0.0f);
@@ -35,7 +35,7 @@ namespace UnitTestProject
 		TEST_METHOD(CalculateLightColor2)
 		{
 			Light light;
-			light.Initialize(Point<>(0.0f, 1.0f, 0.0f), Color<>(1.0f, 1.0f, 1.0f, 1.0f), 1.0f, 0.0f, 0.0f);
+			light.Initialize(Point<>(0.0f, 1.0f, 0.0f), Color<>(1.0f, 1.0f, 1.0f, 1.0f), false, 1.0f, 0.0f, 0.0f);
 
 			Point<> intersection = Point<>(1.0f, 0.0f, 0.0f);
 			Vector3<> normal = Vector3<>(-1.0f, 0.0f, 0.0f);

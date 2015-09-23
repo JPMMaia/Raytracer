@@ -10,6 +10,10 @@ using namespace std;
 bool TestFileReader::Run(const std::wstring& filename, Scene& scene)
 {
 	m_transforms.push(mat4());
+	m_fileData.maxDepth = 5;
+	m_fileData.constantAttenuation = 1.0f;
+	m_fileData.linearAttenuation = 0.0f;
+	m_fileData.quadraticAttenuation = 0.0f;
 
 	// Open input file stream:
 	m_fileStream.open(filename, ios::in);
@@ -56,19 +60,25 @@ bool TestFileReader::ReadLine(Scene& scene)
 		ss >> m_fileData.screenWidth >> m_fileData.screenHeight;
 	}
 
+	else if (command == "maxdepth")
+		ss >> m_fileData.maxDepth;
+
 	else if (command == "camera")
 	{
+		float eyeX, eyeY, eyeZ;
+		float atX, atY, atZ;
+		float upX, upY, upZ;
 		ss
-			>> m_fileData.eyeX >> m_fileData.eyeY >> m_fileData.eyeZ
-			>> m_fileData.atX >> m_fileData.atY >> m_fileData.atZ
-			>> m_fileData.upX >> m_fileData.upY >> m_fileData.upZ
+			>> eyeX >> eyeY >> eyeZ
+			>> atX >> atY >> atZ
+			>> upX >> upY >> upZ
 			>> m_fileData.fieldOfViewY;
 
 		Camera camera;
 		camera.Initialize(
-			Point<>(m_fileData.eyeX, m_fileData.eyeY, m_fileData.eyeZ),
-			Point<>(m_fileData.atX, m_fileData.atY, m_fileData.atZ),
-			Vector3<>(m_fileData.upX, m_fileData.upY, m_fileData.upZ)
+			Point<>(eyeX, eyeY, eyeZ),
+			Point<>(atX, atY, atZ),
+			Vector3<>(upX, upY, upZ)
 			);
 		scene.AddCamera(camera);
 	}
@@ -107,7 +117,7 @@ bool TestFileReader::ReadLine(Scene& scene)
 		triangleMesh.Initialize(vertices, indices);
 
 		Model<GenericMesh> triangleModel;
-		triangleModel.Initialize(triangleMesh, m_material);
+		triangleModel.Initialize(triangleMesh, m_material, transform);
 		scene.AddGenericMesh(triangleModel);
 	}
 
@@ -116,17 +126,23 @@ bool TestFileReader::ReadLine(Scene& scene)
 		float x, y, z, radius;
 		ss >> x >> y >> z >> radius;
 
-		Sphere sphereMesh(m_transforms.top() * Point<float>(x, y, z), radius);
+		Sphere sphereMesh(Point<float>(x, y, z), radius);
 		Model<Sphere> sphere;
-		sphere.Initialize(sphereMesh, m_material);
+		sphere.Initialize(sphereMesh, m_material, m_transforms.top());
 		scene.AddSphere(sphere);
 	}
 
 	else if (command == "ambient")
-		ss 
-		>> m_material.ambientColor.red 
-		>> m_material.ambientColor.green 
+		ss
+		>> m_material.ambientColor.red
+		>> m_material.ambientColor.green
 		>> m_material.ambientColor.blue;
+
+	else if (command == "emission")
+		ss
+		>> m_material.emissionColor.red
+		>> m_material.emissionColor.green
+		>> m_material.emissionColor.blue;
 
 	else if(command == "diffuse")
 		ss
@@ -176,7 +192,14 @@ bool TestFileReader::ReadLine(Scene& scene)
 		ss >> x >> y >> z >> r >> g >> b;
 
 		Light light;
-		light.Initialize(Point<float>(x, y, z), Color<float>(r, g, b, 1.0f), false);
+		light.Initialize(
+			Point<float>(x, y, z),
+			Color<float>(r, g, b, 1.0f),
+			false,
+			m_fileData.constantAttenuation,
+			m_fileData.linearAttenuation,
+			m_fileData.quadraticAttenuation
+			);
 		scene.AddLight(light);
 	}
 
@@ -186,9 +209,22 @@ bool TestFileReader::ReadLine(Scene& scene)
 		ss >> x >> y >> z >> r >> g >> b;
 
 		Light light;
-		light.Initialize(Point<float>(x, y, z), Color<float>(r, g, b, 1.0f), true);
+		light.Initialize(
+			Point<float>(x, y, z), 
+			Color<float>(r, g, b, 1.0f), 
+			true, 
+			m_fileData.constantAttenuation,
+			m_fileData.linearAttenuation,
+			m_fileData.quadraticAttenuation
+			);
 		scene.AddLight(light);
 	}
+
+	else if (command == "attenuation")
+		ss
+		>> m_fileData.constantAttenuation
+		>> m_fileData.linearAttenuation
+		>> m_fileData.quadraticAttenuation;
 
 	return true;
 }

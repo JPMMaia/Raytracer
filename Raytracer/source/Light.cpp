@@ -28,7 +28,8 @@ void Light::CalculateLightColor(const Point<float>& point, const Vector3<float>&
 	float specularIntensity = powf(fmaxf(0.0f, halfVector.dot(normal)), material.shininess);
 	Color<> specularColor = material.specularColor * specularIntensity;
 
-	// TODO Add visibility/shadowing term:
+	// TODO Add visibility term:
+	// TODO Add attenuation
 	calculatedColor = diffuseColor + specularColor;
 	calculatedColor.alpha = 1.0f;
 }

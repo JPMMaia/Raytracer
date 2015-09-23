@@ -104,3 +104,14 @@ bool Scene::IsLightUnblocked(const Light& light, const Point<float>& point) cons
 
 	return true;
 }
+
+bool Scene::IsLightUnblocked(const std::vector<Model<Sphere>>& spheres, const Light & light, float lightDistance, const Ray & ray, const Model<Sphere>& sphereModel) const
+{
+	const glm::mat4& inverseTransfrom = sphereModel.GetInverseTransform();
+
+	Ray transformedRay;
+	transformedRay.origin = ray.origin * inverseTransfrom;
+	transformedRay.direction = ray.direction * inverseTransfrom;
+
+	return IsLightUnblocked(spheres, light, lightDistance, transformedRay);
+}

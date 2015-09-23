@@ -16,7 +16,9 @@ public:
 	struct FileData
 	{
 		int screenWidth, screenHeight;
-		float eyeX, eyeY, eyeZ, atX, atY, atZ, upX, upY, upZ, fieldOfViewY;
+		float fieldOfViewY;
+		UINT maxDepth;
+		float constantAttenuation, linearAttenuation, quadraticAttenuation;
 	};
 
 public:

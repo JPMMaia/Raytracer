@@ -195,7 +195,14 @@
     <None Include="resources\scene1.test" />
     <None Include="resources\scene2.test" />
     <None Include="resources\scene3.test" />
+    <None Include="resources\scene4-ambient.test" />
+    <None Include="resources\scene4-diffuse.test" />
+    <None Include="resources\scene4-emission.test" />
+    <None Include="resources\scene4-specular.test" />
     <None Include="resources\scene4.test" />
+    <None Include="resources\scene5.test" />
+    <None Include="resources\scene6.test" />
+    <None Include="resources\scene7.test" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

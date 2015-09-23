@@ -187,5 +187,26 @@
     <None Include="resources\scene4.test">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="resources\scene4-ambient.test">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\scene4-diffuse.test">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\scene4-emission.test">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\scene4-specular.test">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\scene5.test">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\scene6.test">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\scene7.test">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
