@@ -87,17 +87,17 @@
     <ClCompile Include="source\TestFileReader.cpp">
       <Filter>Source Files\Reader</Filter>
     </ClCompile>
-    <ClCompile Include="source\Face.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\GenericMesh.cpp">
       <Filter>Source Files\Meshes</Filter>
     </ClCompile>
-    <ClCompile Include="source\Scene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\Light.cpp">
       <Filter>Source Files\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Scene.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Face.cpp">
+      <Filter>Source Files\Meshes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="source\Light.h">
       <Filter>Header Files\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Utils.h">
+      <Filter>Header Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

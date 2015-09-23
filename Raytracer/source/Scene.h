@@ -29,12 +29,9 @@ private:
 
 	template<class MeshType>
 	bool IntersectMeshes(const std::vector<Model<MeshType>>& meshes, const Ray& ray, Point<>& intersection, Vector3<>& normal, const Material*& material, float& minDistance) const;
-	template<>
-	bool IntersectMeshes(const std::vector<Model<Sphere>>& spheres, const Ray& ray, Point<>& intersection, Vector3<>& normal, const Material*& material, float& minDistance) const;
 
 	template<class MeshType>
 	bool IsLightUnblocked(const std::vector<Model<MeshType>>& meshes, const Light& light, float lightDistance, const Ray& ray) const;
-	bool IsLightUnblocked(const std::vector<Model<Sphere>>& spheres, const Light& light, float lightDistance, const Ray& ray, const Model<Sphere>& sphereModel) const;
 
 private:
 	std::vector<Model<Sphere>> m_spheres;
@@ -63,36 +60,6 @@ inline bool Scene::IntersectMeshes(const std::vector<Model<MeshType>>& meshes, c
 				intersection = tempIntersection;
 				normal = tempNormal;
 				material = &meshes[i].GetMaterial();
-			}
-		}
-	}
-
-	return result;
-}
-template<>
-bool Scene::IntersectMeshes(const std::vector<Model<Sphere>>& spheres, const Ray& ray, Point<>& intersection, Vector3<>& normal, const Material*& material, float& minDistance) const
-{
-	bool result = false;
-
-	Ray transformedRay;
-	Point<> tempIntersection;
-	Vector3<> tempNormal;
-	float distance;
-	for (UINT i = 0; i < spheres.size(); i++)
-	{
-		const glm::mat4& inverseTransfrom = spheres[i].GetInverseTransform();
-		transformedRay.origin = ray.origin * inverseTransfrom;;
-		transformedRay.direction = ray.direction * inverseTransfrom;;
-
-		if (spheres[i].Intersect(transformedRay, tempIntersection, distance, tempNormal))
-		{
-			result = true;
-			if (distance < minDistance)
-			{
-				minDistance = distance;
-				intersection = tempIntersection;
-				normal = tempNormal;
-				material = &spheres[i].GetMaterial();
 			}
 		}
 	}

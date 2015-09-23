@@ -102,11 +102,10 @@ bool TestFileReader::ReadLine(Scene& scene)
 		UINT index1, index2, index3;
 		ss >> index1 >> index2 >> index3;
 
-		glm::mat4 transform = m_transforms.top();
 		vector<Point<float>> vertices(3);
-		vertices[0] = transform * m_vertices[index1];
-		vertices[1] = transform * m_vertices[index2];
-		vertices[2] = transform * m_vertices[index3];
+		vertices[0] = m_vertices[index1];
+		vertices[1] = m_vertices[index2];
+		vertices[2] = m_vertices[index3];
 
 		vector<UINT> indices(3);
 		indices[0] = 0;
@@ -116,6 +115,7 @@ bool TestFileReader::ReadLine(Scene& scene)
 		GenericMesh triangleMesh;
 		triangleMesh.Initialize(vertices, indices);
 
+		glm::mat4 transform = m_transforms.top();
 		Model<GenericMesh> triangleModel;
 		triangleModel.Initialize(triangleMesh, m_material, transform);
 		scene.AddGenericMesh(triangleModel);

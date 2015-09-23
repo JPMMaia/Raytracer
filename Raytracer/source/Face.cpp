@@ -1,4 +1,5 @@
 #include "Face.h"
+#include "Utils.h"
 
 Face::Face(const Point<float>& vertex1, const Point<float>& vertex2, const Point<float>& vertex3)
 	:
@@ -18,26 +19,26 @@ bool Face::Intersect(const Ray& ray, Point<float>& intersection, float& distance
 	Vector3<float> h = ray.direction.cross(e2);
 	float a = e1.dot(h);
 
-	if (a > -0.00001 && a < 0.00001)
+	if (a < 0.00001f && a > -0.00001f)
 		return false;
 
 	float f = 1 / a;
 	Vector3<float> s = ray.origin - this->vertex1;
 	float u = f * s.dot(h);
 
-	if (u < 0.0 || u > 1.0)
+	if (u < 0.0f || u > 1.0f)
 		return false;
 
 	Vector3<float> q = s.cross(e1);
 	float v = f * ray.direction.dot(q);
 
-	if (v < 0.0 || u + v > 1.0)
+	if (v < 0.0f || u + v > 1.0f)
 		return false;
 
 	distance = f * e2.dot(q);
 
 	// Ray intersection:
-	if (distance > 0.00001) 
+	if (distance > 0.00001f) 
 	{
 		intersection = ray.origin + ray.direction * distance;
 		normal = this->normal;

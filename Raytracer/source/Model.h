@@ -48,9 +48,22 @@ inline void Model<MeshType>::Initialize(const MeshType& mesh, const Material& ma
 }
 
 template<class MeshType>
-inline bool Model<MeshType>::Intersect(const Ray & ray, Point<>& intersection, float& distance, Vector3<>& normal) const
+inline bool Model<MeshType>::Intersect(const Ray& ray, Point<>& intersection, float& distance, Vector3<>& normal) const
 {
-	return static_cast<MeshType>(m_mesh).Intersect(ray, intersection, distance, normal);
+	//Ray transformedRay(ray);
+	Ray transformedRay;
+	transformedRay.origin = m_inverseTransform * ray.origin;
+	transformedRay.direction = m_inverseTransform * ray.direction;
+	transformedRay.direction.normalize();
+
+	if (!static_cast<MeshType>(m_mesh).Intersect(transformedRay, intersection, distance, normal))
+		return false;
+
+	intersection = m_transform * intersection;
+	normal = m_transform * normal;
+	normal.normalize();
+	
+	return true;
 }
 
 template<class MeshType>

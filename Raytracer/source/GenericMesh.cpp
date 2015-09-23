@@ -4,14 +4,15 @@ void GenericMesh::Initialize(const std::vector<Point<float>>& vertices, const st
 {
 	UINT numFaces = indices.size() / 3;
 	m_faces.reserve(numFaces);
-	UINT indicesIndex = 0;
+	
 	for (UINT i = 0; i < numFaces; i++)
 	{
+		UINT indicesIndex = i * 3;
 		m_faces.push_back(
 			Face(
-				vertices[indices[indicesIndex++]],
-				vertices[indices[indicesIndex++]],
-				vertices[indices[indicesIndex++]]
+				vertices[indices[indicesIndex]],
+				vertices[indices[indicesIndex + 1]],
+				vertices[indices[indicesIndex + 2]]
 				)
 			);
 	}
