@@ -15,9 +15,9 @@ class TestFileReader
 public:
 	struct FileData
 	{
+		std::string outputFilename;
 		int screenWidth, screenHeight;
 		float fieldOfViewY;
-		UINT maxDepth;
 		float constantAttenuation, linearAttenuation, quadraticAttenuation;
 	};
 

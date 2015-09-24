@@ -10,7 +10,6 @@ using namespace std;
 bool TestFileReader::Run(const std::wstring& filename, Scene& scene)
 {
 	m_transforms.push(mat4());
-	m_fileData.maxDepth = 5;
 	m_fileData.constantAttenuation = 1.0f;
 	m_fileData.linearAttenuation = 0.0f;
 	m_fileData.quadraticAttenuation = 0.0f;
@@ -55,13 +54,20 @@ bool TestFileReader::ReadLine(Scene& scene)
 	string command;
 	ss >> command;
 
-	if (command == "size")
+	if (command == "output")
+		ss >> m_fileData.outputFilename;
+
+	else if (command == "size")
 	{
 		ss >> m_fileData.screenWidth >> m_fileData.screenHeight;
 	}
 
 	else if (command == "maxdepth")
-		ss >> m_fileData.maxDepth;
+	{
+		UINT maxDepth;
+		ss >> maxDepth;
+		scene.SetMaxReflectionDepth(maxDepth);
+	}
 
 	else if (command == "camera")
 	{
@@ -170,7 +176,7 @@ bool TestFileReader::ReadLine(Scene& scene)
 	{
 		float rX, rY, rZ, angle;
 		ss >> rX >> rY >> rZ >> angle;
-		MultiplyTransform(rotate(angle, vec3(rX, rY, rZ)));
+		MultiplyTransform(rotate(angle * Constants::DEGREES_TO_RADIANS, vec3(rX, rY, rZ)));
 	}
 
 	else if (command == "scale")
@@ -212,10 +218,7 @@ bool TestFileReader::ReadLine(Scene& scene)
 		light.Initialize(
 			Point<float>(x, y, z), 
 			Color<float>(r, g, b, 1.0f), 
-			true, 
-			m_fileData.constantAttenuation,
-			m_fileData.linearAttenuation,
-			m_fileData.quadraticAttenuation
+			true
 			);
 		scene.AddLight(light);
 	}

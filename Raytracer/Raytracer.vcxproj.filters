@@ -211,5 +211,11 @@
     <None Include="resources\scene7.test">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="resources\scene8.test">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\scene9.test">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

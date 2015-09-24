@@ -36,6 +36,10 @@ bool Sphere::Intersect(const Ray& ray, Point<>& intersection, float& distance, V
 	float t2 = (-b - sqrtf(delta)) / (2 * a);
 	distance = fminf(t1, t2);
 
+	// Object is in the oposite direction of the ray:
+	if (distance < 0.0f)
+		return false;
+
 	// Find the point of intersection between the ray and the sphere:
 	intersection = ray.origin + distance * ray.direction;
 

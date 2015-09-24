@@ -15,4 +15,5 @@ public:
 private:
 	Graphics m_graphics;
 	Scene m_scene;
+	std::string m_outputFilename;
 };

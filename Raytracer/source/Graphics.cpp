@@ -48,12 +48,15 @@ bool Graphics::Render(const Scene& scene)
 			if (scene.CalculateColor(ray, cameraPosition, color))
 			{
 				// Add color to pixel:
-				m_renderBuffer.AddPixelColor(m_screenHeight - i, j, color);
+				m_renderBuffer.AddPixelColor(m_screenHeight - i - 1, j, color);
 			}
 		}
 	}
 
-	m_renderBuffer.Save("ResultImage.png");
-
 	return true;
+}
+
+void Graphics::SaveFrame(const char* filename)
+{
+	m_renderBuffer.Save(filename);
 }

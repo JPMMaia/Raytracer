@@ -208,6 +208,8 @@
     <None Include="resources\scene5.test" />
     <None Include="resources\scene6.test" />
     <None Include="resources\scene7.test" />
+    <None Include="resources\scene8.test" />
+    <None Include="resources\scene9.test" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

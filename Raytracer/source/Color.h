@@ -21,6 +21,9 @@ struct Color
 
 	template<class TypeToCast>
 	inline operator Color<TypeToCast>() const;
+
+	Color<T> operator/(T number) const;
+	Color<T> operator*(const Color<float>& other) const;
 };
 
 template<class T>
@@ -69,6 +72,16 @@ inline Color<T> operator+(const Color<T>& color1, const Color<T>& color2)
 		color1.alpha + color2.alpha
 		);
 }
+template<>
+inline Color<float> operator+(const Color<float>& color1, const Color<float>& color2)
+{
+	return Color<float>(
+		color1.red + color2.red,
+		color1.green + color2.green,
+		color1.blue + color2.blue,
+		1.0f
+		);
+}
 
 template<class T>
 inline Color<T> operator*(float scalar, const Color<T>& vector)
@@ -84,4 +97,26 @@ template<class T>
 inline Color<T> operator*(const Color<T>& vector, float scalar)
 {
 	return scalar * vector;
+}
+
+template<class T>
+inline Color<T> Color<T>::operator/(T number) const
+{
+	return Color<T>(
+		this->red / number,
+		this->green / number,
+		this->blue / number,
+		this->alpha
+		);
+}
+
+template<class T>
+inline Color<T> Color<T>::operator*(const Color<float>& other) const
+{
+	return Color<T>(
+		this->red * other.red,
+		this->green * other.green,
+		this->blue * other.blue,
+		1.0f
+		);
 }

@@ -11,7 +11,7 @@
 class Scene
 {
 public:
-	void Initialize(UINT maxSpheres, UINT maxGenericMeshes);
+	void Initialize(UINT maxSpheres, UINT maxGenericMeshes, UINT maxReflectionDepth = 5);
 
 	bool CalculateColor(const Ray& ray, Point<float> cameraPosition, Color<float>& color) const;
 
@@ -22,9 +22,11 @@ public:
 	
 	Camera& GetCurrentCamera() const;
 	void SetCurrentCamera(UINT index);
+	void SetMaxReflectionDepth(UINT maxReflectionDepth);
 
 private:
 	bool FindNearestIntersection(const Ray& ray, Point<float>& intersection, Vector3<float>& normal, const Material*& material) const;	
+	void Scene::CalculateLight(const Point<float>& cameraPosition, const Point<float>& intersection, const Vector3<float>& normal, const Material& material, Color<float>& color) const;
 	bool IsLightUnblocked(const Light& light, const Point<float>& point) const;
 
 	template<class MeshType>
@@ -33,12 +35,15 @@ private:
 	template<class MeshType>
 	bool IsLightUnblocked(const std::vector<Model<MeshType>>& meshes, const Light& light, float lightDistance, const Ray& ray) const;
 
+	void CalculateReflection(const Ray& ray, const Point<float>& cameraPosition, const Point<float>& intersection, const Vector3<float>& normal, const Material& material, Color<float>& color, UINT depth) const;
+
 private:
 	std::vector<Model<Sphere>> m_spheres;
 	std::vector<Model<GenericMesh>> m_genericMeshes;
 	std::vector<Camera> m_cameras;
 	std::vector<Light> m_lights;
 	Camera* m_currentCamera;
+	UINT m_maxReflectionDepth;
 };
 
 template<class MeshType>
@@ -79,7 +84,7 @@ inline bool Scene::IsLightUnblocked(const std::vector<Model<MeshType>>& meshes, 
 		if (meshes[i].Intersect(ray, tempPoint, distance, tempVector))
 		{
 			// If there is an object between the light and the intersection:
-			if (distance > 0.0f && distance < lightDistance)
+			if (distance < lightDistance)
 				return false;
 		}
 	}

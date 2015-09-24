@@ -75,6 +75,14 @@ struct Vector3
 			this->z + other.z
 			);
 	}
+	inline Vector3<T> operator-(const Vector3<T>& other) const
+	{
+		return Vector3<T>(
+			this->x - other.x,
+			this->y - other.y,
+			this->z - other.z
+			);
+	}
 
 	inline Vector3<T> operator-() const
 	{

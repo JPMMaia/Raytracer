@@ -59,8 +59,12 @@ inline bool Model<MeshType>::Intersect(const Ray& ray, Point<>& intersection, fl
 	if (!static_cast<MeshType>(m_mesh).Intersect(transformedRay, intersection, distance, normal))
 		return false;
 
+	transformedRay.direction = transformedRay.direction * distance;
+	transformedRay.direction = m_transform * transformedRay.direction;
+	distance = transformedRay.direction.length();
+
 	intersection = m_transform * intersection;
-	normal = m_transform * normal;
+	normal = glm::transpose(m_inverseTransform) * normal;
 	normal.normalize();
 	
 	return true;

@@ -9,6 +9,7 @@ bool Application::Initialize(const std::wstring& filename)
 		return false;
 
 	const TestFileReader::FileData& fileData = fileReader.GetFileData();
+	m_outputFilename = fileData.outputFilename;
 
 	if (!m_graphics.Initialize(fileData.screenWidth, fileData.screenHeight, fileData.fieldOfViewY))
 		return false;
@@ -25,4 +26,6 @@ void Application::Shutdown()
 void Application::Render()
 {
 	m_graphics.Render(m_scene);
+
+	m_graphics.SaveFrame(m_outputFilename.c_str());
 }

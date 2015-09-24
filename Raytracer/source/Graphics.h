@@ -14,6 +14,7 @@ public:
 	void Shutdown();
 
 	bool Render(const Scene& scene);
+	void SaveFrame(const char* filename);
 
 private:
 	Camera m_camera;

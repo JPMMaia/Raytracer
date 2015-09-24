@@ -10,7 +10,7 @@ void Light::Initialize(const Point<float>& position, const Color<float>& color, 
 	m_quadraticAttenuation = quadraticAttenuation;
 }
 
-void Light::CalculateLightColor(const Point<float>& point, const Vector3<float>& normal, const Vector3<float>& viewDirection, const Material & material, Color<float>& calculatedColor) const
+void Light::CalculateLightColor(const Point<float>& point, const Vector3<float>& normal, const Vector3<float>& viewDirection, const Material& material, Color<float>& calculatedColor) const
 {
 	// Calculate the normalized light direction:
 	Vector3<> lightDirection = m_directional ? Vector3<>(m_position.x, m_position.y, m_position.z) : m_position - point;
@@ -28,9 +28,16 @@ void Light::CalculateLightColor(const Point<float>& point, const Vector3<float>&
 	float specularIntensity = powf(fmaxf(0.0f, halfVector.dot(normal)), material.shininess);
 	Color<> specularColor = material.specularColor * specularIntensity;
 
-	// TODO Add visibility term:
-	// TODO Add attenuation
-	calculatedColor = diffuseColor + specularColor;
+	calculatedColor = (diffuseColor + specularColor);
+
+	if (!m_directional)
+	{
+		float distance = (m_position - point).length();
+		float attenuation = m_constantAttenuation + m_linearAttenuation * distance + m_quadraticAttenuation * distance * distance;
+		calculatedColor = calculatedColor / attenuation;
+	}
+
+	calculatedColor = calculatedColor * m_color;
 	calculatedColor.alpha = 1.0f;
 }
 
