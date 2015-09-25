@@ -10,7 +10,7 @@ typedef unsigned int UINT;
 class Graphics
 {
 public:
-	bool Initialize(UINT screenWidth, UINT screenHeight, float fieldOfViewY);
+	bool Initialize(UINT screenWidth, UINT screenHeight, UINT maxReflectionDepth, float fieldOfViewY);
 	void Shutdown();
 
 	bool Render(const Scene& scene);
@@ -23,4 +23,5 @@ private:
 
 	UINT m_screenWidth;
 	UINT m_screenHeight;
+	UINT m_maxReflectionDepth;
 };

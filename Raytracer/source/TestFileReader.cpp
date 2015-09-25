@@ -64,9 +64,7 @@ bool TestFileReader::ReadLine(Scene& scene)
 
 	else if (command == "maxdepth")
 	{
-		UINT maxDepth;
-		ss >> maxDepth;
-		scene.SetMaxReflectionDepth(maxDepth);
+		ss >> m_fileData.maxReflectionDepth;
 	}
 
 	else if (command == "camera")

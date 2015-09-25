@@ -1,10 +1,9 @@
 #include "Scene.h"
 
-void Scene::Initialize(UINT maxSpheres, UINT maxGenericMeshes, UINT maxReflectionDepth)
+void Scene::Initialize(UINT maxSpheres, UINT maxGenericMeshes)
 {
 	m_spheres.reserve(maxSpheres);
 	m_genericMeshes.reserve(maxGenericMeshes);
-	m_maxReflectionDepth = maxReflectionDepth;
 
 	// Setup a default camera:
 	Camera camera;
@@ -13,7 +12,7 @@ void Scene::Initialize(UINT maxSpheres, UINT maxGenericMeshes, UINT maxReflectio
 	SetCurrentCamera(0);
 }
 
-bool Scene::CalculateColor(const Ray& ray, Point<float> cameraPosition, Color<float>& color) const
+bool Scene::CalculateColor(const Ray& ray, Point<float> cameraPosition, Color<float>& color, UINT depth) const
 {
 	color = Color<float>(0.0f, 0.0f, 0.0f, 1.0f);
 
@@ -25,22 +24,26 @@ bool Scene::CalculateColor(const Ray& ray, Point<float> cameraPosition, Color<fl
 		return false;
 
 	// Add ambient and emission colors:
-	color = Color<float>(
-		material->ambientColor.red + material->emissionColor.red,
-		material->ambientColor.green + material->emissionColor.green,
-		material->ambientColor.blue + material->emissionColor.blue,
-		1.0f
-		);
+	color = material->ambientColor + material->emissionColor;
 
 	// Calculate color from lights:
 	Color<float> lightColor;
 	CalculateLight(cameraPosition, intersection, normal, *material, lightColor);
+
 	color = color + lightColor;
 
 	// Add reflection:
-	Color<float> reflectionColor;
-	CalculateReflection(ray, cameraPosition, intersection, normal, *material, reflectionColor, m_maxReflectionDepth);
-	color = color + reflectionColor;
+	if (depth > 0)
+	{
+		Ray reflectionRay;
+		reflectionRay.direction = ray.direction - (2.0f * ray.direction.dot(normal) * normal);
+		reflectionRay.direction.normalize();
+		reflectionRay.origin = intersection + reflectionRay.direction * 0.0001f;
+
+		Color<float> reflectionColor;
+		CalculateColor(reflectionRay, intersection, reflectionColor, depth - 1);
+		color = color + (material->specularColor * reflectionColor);
+	}
 
 	return  true;
 }
@@ -69,11 +72,6 @@ Camera& Scene::GetCurrentCamera() const
 void Scene::SetCurrentCamera(UINT index)
 {
 	m_currentCamera = &m_cameras[index];
-}
-
-void Scene::SetMaxReflectionDepth(UINT maxReflectionDepth)
-{
-	m_maxReflectionDepth = maxReflectionDepth;
 }
 
 bool Scene::FindNearestIntersection(const Ray& ray, Point<>& intersection, Vector3<>& normal, const Material*& material) const
@@ -110,13 +108,14 @@ void Scene::CalculateLight(const Point<float>& cameraPosition, const Point<float
 }
 bool Scene::IsLightUnblocked(const Light& light, const Point<float>& point) const
 {
-	Vector3<float> lightDirection = light.GetPosition() - point;
+	Point<float> lightPosition = light.GetPosition();
+	Vector3<float> lightDirection = light.IsDirectional() ? Vector3<>(lightPosition.x, lightPosition.y, lightPosition.z) : lightPosition - point;
 
 	// Create a ray to cast at the direction of the light:
 	Ray ray(point, lightDirection);
 
 	// Add a little bit of offset to handle the numeric errors:
-	ray.origin = ray.origin + ray.direction * 0.001f;
+	ray.origin = ray.origin + ray.direction * 0.00001f;
 
 	// Calculate distance between the light and the intersection point:
 	float lightDistance = lightDirection.length();
@@ -128,37 +127,4 @@ bool Scene::IsLightUnblocked(const Light& light, const Point<float>& point) cons
 		return false;
 
 	return true;
-}
-
-void Scene::CalculateReflection(const Ray& ray, const Point<float>& cameraPosition, const Point<float>& intersection, const Vector3<float>& normal, const Material& material, Color<float>& color, UINT depth) const
-{
-	color = Color<float>(0.0f, 0.0f, 0.0f, 1.0f);
-	if (depth == 0)
-		return;
-
-	// Calculate reflection ray:
-	Ray reflectionRay;
-	reflectionRay.direction = ray.direction - 2 * ray.direction.dot(normal) * normal;
-	reflectionRay.origin = intersection + reflectionRay.direction * 0.001f;
-
-	Point<float> newIntersection;
-	Vector3<float> newNormal;
-	const Material* newMaterial;
-	if (!FindNearestIntersection(reflectionRay, newIntersection, newNormal, newMaterial))
-		return;
-
-	// Calculate light color:
-	Color<float> lightColor;
-	CalculateLight(cameraPosition, newIntersection, newNormal, *newMaterial, lightColor);
-
-	// Add color from lights times a specular color:
-	color = color + material.specularColor * lightColor;
-
-	// Calculate reflection color:
-	Color<float> reflectionColor;
-	--depth;
-	CalculateReflection(reflectionRay, cameraPosition, newIntersection, newNormal, *newMaterial, reflectionColor, depth);
-
-	// Add color of reflection:
-	color = color + reflectionColor;
 }

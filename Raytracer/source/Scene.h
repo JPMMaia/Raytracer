@@ -11,9 +11,9 @@
 class Scene
 {
 public:
-	void Initialize(UINT maxSpheres, UINT maxGenericMeshes, UINT maxReflectionDepth = 5);
+	void Initialize(UINT maxSpheres, UINT maxGenericMeshes);
 
-	bool CalculateColor(const Ray& ray, Point<float> cameraPosition, Color<float>& color) const;
+	bool CalculateColor(const Ray& ray, Point<float> cameraPosition, Color<float>& color, UINT depth) const;
 
 	void AddCamera(const Camera& camera);
 	void AddSphere(const Model<Sphere>& sphere);
@@ -22,7 +22,6 @@ public:
 	
 	Camera& GetCurrentCamera() const;
 	void SetCurrentCamera(UINT index);
-	void SetMaxReflectionDepth(UINT maxReflectionDepth);
 
 private:
 	bool FindNearestIntersection(const Ray& ray, Point<float>& intersection, Vector3<float>& normal, const Material*& material) const;	
@@ -35,15 +34,12 @@ private:
 	template<class MeshType>
 	bool IsLightUnblocked(const std::vector<Model<MeshType>>& meshes, const Light& light, float lightDistance, const Ray& ray) const;
 
-	void CalculateReflection(const Ray& ray, const Point<float>& cameraPosition, const Point<float>& intersection, const Vector3<float>& normal, const Material& material, Color<float>& color, UINT depth) const;
-
 private:
 	std::vector<Model<Sphere>> m_spheres;
 	std::vector<Model<GenericMesh>> m_genericMeshes;
 	std::vector<Camera> m_cameras;
 	std::vector<Light> m_lights;
 	Camera* m_currentCamera;
-	UINT m_maxReflectionDepth;
 };
 
 template<class MeshType>

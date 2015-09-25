@@ -12,6 +12,8 @@ void Light::Initialize(const Point<float>& position, const Color<float>& color, 
 
 void Light::CalculateLightColor(const Point<float>& point, const Vector3<float>& normal, const Vector3<float>& viewDirection, const Material& material, Color<float>& calculatedColor) const
 {
+	calculatedColor = Color<float>(0.0f, 0.0f, 0.0f, 1.0f);
+
 	// Calculate the normalized light direction:
 	Vector3<> lightDirection = m_directional ? Vector3<>(m_position.x, m_position.y, m_position.z) : m_position - point;
 	lightDirection.normalize();
@@ -22,6 +24,9 @@ void Light::CalculateLightColor(const Point<float>& point, const Vector3<float>&
 
 	// Calculate diffuse color:
 	float diffuseIntensity = fmaxf(0.0f, lightDirection.dot(normal));
+	if (-0.00001f < diffuseIntensity && diffuseIntensity < 0.00001f)
+		return;
+
 	Color<> diffuseColor = material.diffuseColor * diffuseIntensity;
 
 	// Calculate specular color:
@@ -44,4 +49,9 @@ void Light::CalculateLightColor(const Point<float>& point, const Vector3<float>&
 const Point<float>& Light::GetPosition() const
 {
 	return m_position;
+}
+
+bool Light::IsDirectional() const
+{
+	return m_directional;
 }

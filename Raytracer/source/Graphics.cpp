@@ -3,10 +3,13 @@
 #include "Property.h"
 #include "Scene.h"
 
-bool Graphics::Initialize(UINT screenWidth, UINT screenHeight, float fieldOfViewY)
+#include <iostream>
+
+bool Graphics::Initialize(UINT screenWidth, UINT screenHeight, UINT maxReflectionDepth, float fieldOfViewY)
 {
 	m_screenWidth = screenWidth;
 	m_screenHeight = screenHeight;
+	m_maxReflectionDepth = maxReflectionDepth;
 
 	// Initialize Free Image:
 	FreeImage_Initialise();
@@ -41,11 +44,13 @@ bool Graphics::Render(const Scene& scene)
 	
 	for (UINT i = 0; i < m_screenHeight; i++)
 	{
+		std::cout << "line: " << i << std::endl; // To output some feedback about the progress
+
 		for (UINT j = 0; j < m_screenWidth; j++)
 		{
 			Ray ray = m_raytracer.CalculatePixelRay(cameraPosition, cameraLeftDirection, cameraUpDirection, cameraViewDirection, i, j);
 
-			if (scene.CalculateColor(ray, cameraPosition, color))
+			if (scene.CalculateColor(ray, cameraPosition, color, m_maxReflectionDepth))
 			{
 				// Add color to pixel:
 				m_renderBuffer.AddPixelColor(m_screenHeight - i - 1, j, color);

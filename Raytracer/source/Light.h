@@ -11,6 +11,7 @@ public:
 	void CalculateLightColor(const Point<float>& point, const Vector3<float>& normal, const Vector3<float>& viewDirection, const Material& material, Color<float>& calculatedColor) const;
 
 	const Point<float>& GetPosition() const;
+	bool IsDirectional() const;
 
 private:
 	Point<float> m_position;

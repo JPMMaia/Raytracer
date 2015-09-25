@@ -11,7 +11,7 @@ bool Application::Initialize(const std::wstring& filename)
 	const TestFileReader::FileData& fileData = fileReader.GetFileData();
 	m_outputFilename = fileData.outputFilename;
 
-	if (!m_graphics.Initialize(fileData.screenWidth, fileData.screenHeight, fileData.fieldOfViewY))
+	if (!m_graphics.Initialize(fileData.screenWidth, fileData.screenHeight, fileData.maxReflectionDepth, fileData.fieldOfViewY))
 		return false;
 
 	m_scene.SetCurrentCamera(1);

@@ -16,7 +16,8 @@ public:
 	struct FileData
 	{
 		std::string outputFilename;
-		int screenWidth, screenHeight;
+		UINT screenWidth, screenHeight;
+		UINT maxReflectionDepth;
 		float fieldOfViewY;
 		float constantAttenuation, linearAttenuation, quadraticAttenuation;
 	};
